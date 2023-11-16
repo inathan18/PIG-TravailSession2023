@@ -46,4 +46,31 @@
   <PropertyGroup Condition="'$(DisableHasPackageAndPublishMenuAddedByProject)'!='true' and '$(EnableMsixTooling)'=='true'">
     <HasPackageAndPublishMenu>true</HasPackageAndPublishMenu>
   </PropertyGroup>
+  <ItemGroup>
+    <CustomAdditionalCompileInputs Remove="PageEmploye.xaml" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="PageAdmin.xaml" />
+    <None Remove="PageClient.xaml" />
+    <None Remove="PageEmploye.xaml" />
+    <None Remove="PageProjet.xaml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Remove="PageEmploye.xaml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="PageAdmin.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="PageProjet.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="PageClient.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
 </Project>

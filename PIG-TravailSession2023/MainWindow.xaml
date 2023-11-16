@@ -8,7 +8,23 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
-        <Button x:Name="myButton" Click="myButton_Click">Click Me</Button>
-    </StackPanel>
+    <Grid>
+        <NavigationView PaneDisplayMode="Left" PaneTitle="Gestion de projet" x:Name="navView"
+                        IsBackEnabled="False"
+                        SelectionChanged="navView_SelectionChanged" IsSettingsVisible="False">
+            <NavigationView.MenuItems>
+                <NavigationViewItem Content="Employés" x:Name="iEmploye" Icon="People"/>
+                <NavigationViewItem Content="Clients" x:Name="iClient" Icon="Contact" />
+                <NavigationViewItem Content="Projets" x:Name="iProjet" Icon="Document"/>
+                <NavigationViewItem Content="Admin" x:Name="iAdmin" Icon="Admin"/>
+            </NavigationView.MenuItems>
+            <NavigationView.PaneFooter>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <Button x:Name="btnWrite" Click="btnWrite_Click">Exporter les projets</Button>
+                </StackPanel>
+            </NavigationView.PaneFooter>
+            <Frame x:Name="mainFrame" Grid.Row="1"/>
+        </NavigationView>
+        
+    </Grid>
 </Window>

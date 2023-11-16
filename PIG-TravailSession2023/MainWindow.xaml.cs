@@ -28,9 +28,48 @@ namespace PIG_TravailSession2023
             this.InitializeComponent();
         }
 
-        private void myButton_Click(object sender, RoutedEventArgs e)
+        private void navView_SelectionChanged(NavigationView sender, NavigationViewSelectionChangedEventArgs args)
         {
-            myButton.Content = "Clicked";
+            var item = (NavigationViewItem)args.SelectedItem;
+
+            switch (item.Name)
+            {
+                case "iEmploye":
+                    mainFrame.Navigate(typeof(PageEmploye));
+                    break;
+
+                case "iClient":
+                    mainFrame.Navigate(typeof(PageClient));
+                    break;
+
+                case "iProjet":
+                    mainFrame.Navigate(typeof(PageProjet));
+                    break;
+
+                case "iAdmin":
+                    mainFrame.Navigate(typeof(PageAdmin));
+                    break;
+            }
+        }
+
+        private async void btnWrite_Click(object sender, RoutedEventArgs e)
+        {
+            var picker = new Windows.Storage.Pickers.FileSavePicker();
+
+            var hWnd = WinRT.Interop.WindowNative.GetWindowHandle(this);
+            WinRT.Interop.InitializeWithWindow.Initialize(picker, hWnd);
+
+            picker.SuggestedFileName = "ListeProjets";
+            picker.FileTypeChoices.Add("Fichier CSV", new List<string>() { ".csv" });
+
+            Windows.Storage.StorageFile monFichier = await picker.PickSaveFileAsync();
+
+            List<Projet> liste = Singleton.getInstance().getListeProjetBDCSV();
+            if (monFichier != null)
+            {
+                await Windows.Storage.FileIO.WriteLinesAsync(monFichier, liste.ConvertAll(x=>x.toCSV()), Windows.Storage.Streams.UnicodeEncoding.Utf8);
+            }
+
         }
     }
 }

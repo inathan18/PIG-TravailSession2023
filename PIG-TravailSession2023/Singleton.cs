@@ -201,6 +201,51 @@ namespace PIG_TravailSession2023
             con.Close();
             return listeProjet;
         }
+        public List<Projet> getListeProjetBDCSV()
+        {
+            
+            MySqlCommand commande = new MySqlCommand("projet_select");
+            commande.Connection = con;
+            commande.CommandType = System.Data.CommandType.StoredProcedure;
+
+            if (con.State != System.Data.ConnectionState.Open)
+            {
+                con.Open();
+            }
+
+            MySqlDataReader r = commande.ExecuteReader();
+            List<Projet> l = new List<Projet>();
+
+            while (r.Read())
+            {
+                string noProjet = (string)r["noProjet"];
+                string titre = (string)r["titre"];
+                string dateDebut = (string)r["dateDebut"];
+                string description = (string)r["description"];
+                string statut = (string)r["statut"];
+                int nbEmployes = (int)r["nbEmployes"];
+                int client = (int)r["client"];
+                double budget = (double)r["budget"];
+                double salaires = (double)r["salaires"];
+
+                Projet p = new Projet
+                {
+                    NoProjet = noProjet,
+                    Titre = titre,
+                    DateDebut = dateDebut,
+                    Description = description,
+                    Statut = statut,
+                    NbEmployes = nbEmployes,
+                    Client = client,
+                    Budget = budget,
+                    Salaires = salaires,
+                };
+                l.Add(p);
+            }
+            r.Close();
+            con.Close();
+            return l;
+        }
 
         public ObservableCollection<Client> getListeClient()
         {
