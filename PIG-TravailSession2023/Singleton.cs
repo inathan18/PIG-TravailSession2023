@@ -20,7 +20,7 @@ namespace PIG_TravailSession2023
         ObservableCollection<Projet> listeProjet;
 
         static Singleton instance = null;
-        MySqlConnection con = new MySqlConnection("Server=cours.cegep3r.info;Database=a2023_420326_gr02_1343683-nathan-lafreniere-racine;Uid=1343683;Pwd1343683");
+        MySqlConnection con = new MySqlConnection("Server=cours.cegep3r.info;Database=a2023_420325ri_fabeq26;Uid=1343683;Pwd1343683");
 
         public Singleton()
         {
@@ -269,7 +269,6 @@ namespace PIG_TravailSession2023
 
         public void AjouterEmploye(Employe employe)
         {
-            string matricule = employe.Matricule;
             string nom = employe.Nom;
             string prenom = employe.Prenom;
             string email = employe.Email;
@@ -313,7 +312,6 @@ namespace PIG_TravailSession2023
 
         public void AjouterClient(Client client)
         {
-            int id = client.Id;
             string nom = client.Nom;
             string adresse = client.Adresse;
             string numTel = client.NumTel;
@@ -348,7 +346,6 @@ namespace PIG_TravailSession2023
 
         public void AjouterProjet(Projet projet)
         {
-            string noProjet = projet.NoProjet;
             string titre = projet.Titre;
             string dateDebut = projet.DateDebut;
             string description = projet.Description;
@@ -388,7 +385,6 @@ namespace PIG_TravailSession2023
 
         public void AjouterEmployeProjet(Employe_projet employe_Projet)
         {
-            int id = employe_Projet.Id;
             string matricule = employe_Projet.Matricule;
             string noProjet = employe_Projet.NoProjet;
             double nbHeures = employe_Projet.NbHeures;
@@ -396,14 +392,12 @@ namespace PIG_TravailSession2023
 
             try
             {
-                MySqlCommand commande = new MySqlCommand("employeprojet_ajout");
+                MySqlCommand commande = new MySqlCommand("add_employeeproject");
                 commande.Connection = con;
                 commande.CommandType = System.Data.CommandType.StoredProcedure;
-                commande.Parameters.AddWithValue("@ep_id", id);
-                commande.Parameters.AddWithValue("@ep_matricule", matricule);
-                commande.Parameters.AddWithValue("@ep_noProjet", noProjet);
-                commande.Parameters.AddWithValue("@ep_nbHeures", nbHeures);
-                commande.Parameters.AddWithValue("@ep_salaire", salaire);
+                commande.Parameters.AddWithValue("@amatricule", matricule);
+                commande.Parameters.AddWithValue("@anoProjet", noProjet);
+                commande.Parameters.AddWithValue("@anbHeures", nbHeures);
 
                 if (con.State != System.Data.ConnectionState.Open)
                 {
@@ -421,15 +415,28 @@ namespace PIG_TravailSession2023
             }
         }
 
+        public Employe getEmploye(int position)
+        {
+            return listeEmploye[position];
+        }
+        public Client getClient(int position)
+        {
+            return listeClient[position];
+        }
+        public Projet getProjet(int position)
+        {
+            return listeProjet[position];
+        }
+
         public void SupprimerClient(int position)
         {
             try
             {
                 int id = listeClient[position].Id;
-                MySqlCommand commande = new MySqlCommand("client_delete");
+                MySqlCommand commande = new MySqlCommand("delete_client");
                 commande.Connection = con;
                 commande.CommandType = System.Data.CommandType.StoredProcedure;
-                commande.Parameters.AddWithValue("@c_id", id);
+                commande.Parameters.AddWithValue("@aid", id);
 
                 if (con.State != System.Data.ConnectionState.Open)
                 {
@@ -450,10 +457,10 @@ namespace PIG_TravailSession2023
             try
             {
                 string matricule = listeEmploye[position].Matricule;
-                MySqlCommand commande = new MySqlCommand("employe_delete");
+                MySqlCommand commande = new MySqlCommand("delete_employee");
                 commande.Connection = con;
                 commande.CommandType = System.Data.CommandType.StoredProcedure;
-                commande.Parameters.AddWithValue("@e_matricule", matricule);
+                commande.Parameters.AddWithValue("@amatricule", matricule);
 
                 if (con.State != System.Data.ConnectionState.Open)
                 {
@@ -475,10 +482,10 @@ namespace PIG_TravailSession2023
             try
             {
                 string noProjet = listeProjet[position].NoProjet;
-                MySqlCommand commande = new MySqlCommand("projet_delete");
+                MySqlCommand commande = new MySqlCommand("delete_project");
                 commande.Connection = con;
                 commande.CommandType = System.Data.CommandType.StoredProcedure;
-                commande.Parameters.AddWithValue("@p_noProjet", noProjet);
+                commande.Parameters.AddWithValue("@anoProjet", noProjet);
 
                 if (con.State != System.Data.ConnectionState.Open)
                 {
@@ -499,10 +506,10 @@ namespace PIG_TravailSession2023
             try
             {
                 int id = listeEmploye_projet[position].Id;
-                MySqlCommand commande = new MySqlCommand("employeprojet_delete");
+                MySqlCommand commande = new MySqlCommand("delete_employeeproject");
                 commande.Connection = con;
                 commande.CommandType = System.Data.CommandType.StoredProcedure;
-                commande.Parameters.AddWithValue("@ep_id", id);
+                commande.Parameters.AddWithValue("@aid", id);
 
                 if (con.State != System.Data.ConnectionState.Open)
                 {
@@ -523,17 +530,17 @@ namespace PIG_TravailSession2023
         {
             try
             {
-                MySqlCommand commande = new MySqlCommand("employe_update");
+                MySqlCommand commande = new MySqlCommand("edit_employe");
                 commande.Connection = con;
                 commande.CommandType = System.Data.CommandType.StoredProcedure;
-                commande.Parameters.AddWithValue("@e_matricule", matricule);
-                commande.Parameters.AddWithValue("@e_nom", nom);
-                commande.Parameters.AddWithValue("@e_prenom", prenom);
-                commande.Parameters.AddWithValue("@e_email", email);
-                commande.Parameters.AddWithValue("@e_adresse", adresse);
-                commande.Parameters.AddWithValue("@e_statut", statut);
-                commande.Parameters.AddWithValue("@e_tauxHoraire", tauxHoraire);
-                commande.Parameters.AddWithValue("@e_photo", photo.ToString());
+                commande.Parameters.AddWithValue("@amatricule", matricule);
+                commande.Parameters.AddWithValue("@anom", nom);
+                commande.Parameters.AddWithValue("@aprenom", prenom);
+                commande.Parameters.AddWithValue("@aemail", email);
+                commande.Parameters.AddWithValue("@aadresse", adresse);
+                commande.Parameters.AddWithValue("@astatut", statut);
+                commande.Parameters.AddWithValue("@atauxHoraire", tauxHoraire);
+                commande.Parameters.AddWithValue("@aphoto", photo.ToString());
 
                 if (con.State != System.Data.ConnectionState.Open)
                 {
@@ -554,14 +561,14 @@ namespace PIG_TravailSession2023
         {
             try
             {
-                MySqlCommand commande = new MySqlCommand("client_update");
+                MySqlCommand commande = new MySqlCommand("edit_client");
                 commande.Connection = con;
                 commande.CommandType = System.Data.CommandType.StoredProcedure;
-                commande.Parameters.AddWithValue("@c_id", id);
-                commande.Parameters.AddWithValue("@c_nom", nom);
-                commande.Parameters.AddWithValue("@c_adresse", adresse);
-                commande.Parameters.AddWithValue("@c_numTel", numTel);
-                commande.Parameters.AddWithValue("@c_email", email);
+                commande.Parameters.AddWithValue("@aid", id);
+                commande.Parameters.AddWithValue("@anom", nom);
+                commande.Parameters.AddWithValue("@aadresse", adresse);
+                commande.Parameters.AddWithValue("@anumTel", numTel);
+                commande.Parameters.AddWithValue("@aemail", email);
 
                 if (con.State != System.Data.ConnectionState.Open)
                 {
@@ -583,18 +590,17 @@ namespace PIG_TravailSession2023
         {
             try
             {
-                MySqlCommand commande = new MySqlCommand("projet_update");
+                MySqlCommand commande = new MySqlCommand("edit_project");
                 commande.Connection = con;
                 commande.CommandType = System.Data.CommandType.StoredProcedure;
-                commande.Parameters.AddWithValue("@p_noProjet", noProjet);
-                commande.Parameters.AddWithValue("@p_titre", titre);
-                commande.Parameters.AddWithValue("@p_dateDebut", DateOnly.Parse(dateDebut));
-                commande.Parameters.AddWithValue("@p_description", description);
-                commande.Parameters.AddWithValue("@p_statut", statut);
-                commande.Parameters.AddWithValue("@p_nbEmployes", nbEmployes);
-                commande.Parameters.AddWithValue("@p_client", client);
-                commande.Parameters.AddWithValue("@p_budget", budget);
-                commande.Parameters.AddWithValue("@p_salaires", salaires);
+                commande.Parameters.AddWithValue("@anoProjet", noProjet);
+                commande.Parameters.AddWithValue("@atitre", titre);
+                commande.Parameters.AddWithValue("@adateDebut", DateOnly.Parse(dateDebut));
+                commande.Parameters.AddWithValue("@adescription", description);
+                commande.Parameters.AddWithValue("@astatut", statut);
+                commande.Parameters.AddWithValue("@anbEmployes", nbEmployes);
+                commande.Parameters.AddWithValue("@aclient", client);
+                commande.Parameters.AddWithValue("@abudget", budget);
                 if (con.State != System.Data.ConnectionState.Open)
                 {
                     con.Open();
@@ -614,14 +620,13 @@ namespace PIG_TravailSession2023
         {
             try
             {
-                MySqlCommand commande = new MySqlCommand("employeprojet_update");
+                MySqlCommand commande = new MySqlCommand("edit_employeeproject");
                 commande.Connection = con;
                 commande.CommandType = System.Data.CommandType.StoredProcedure;
-                commande.Parameters.AddWithValue("@ep_id", id);
-                commande.Parameters.AddWithValue("@ep_matricule", matricule);
-                commande.Parameters.AddWithValue("@ep_noProjet", noProjet);
-                commande.Parameters.AddWithValue("@ep_nbHeures", nbHeures);
-                commande.Parameters.AddWithValue("@ep_salaire", salaire);
+                commande.Parameters.AddWithValue("@aid", id);
+                commande.Parameters.AddWithValue("@amatricule", matricule);
+                commande.Parameters.AddWithValue("@anoProjet", noProjet);
+                commande.Parameters.AddWithValue("@anbHeures", nbHeures);
 
                 if (con.State != System.Data.ConnectionState.Open)
                 {
@@ -650,7 +655,7 @@ namespace PIG_TravailSession2023
         private void reloadEmploye()
         {
             listeEmploye.Clear();
-            MySqlCommand commande = new MySqlCommand("employe_select");
+            MySqlCommand commande = new MySqlCommand("get_allemployees");
             commande.Connection = con;
             commande.CommandType = System.Data.CommandType.StoredProcedure;
 

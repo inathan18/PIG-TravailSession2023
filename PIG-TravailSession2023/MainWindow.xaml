@@ -8,7 +8,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <Grid>
+    <Grid x:Name="MainGrid">
         <NavigationView PaneDisplayMode="Left" PaneTitle="Gestion de projet" x:Name="navView"
                         IsBackEnabled="False"
                         SelectionChanged="navView_SelectionChanged" IsSettingsVisible="False">
@@ -21,6 +21,7 @@
             <NavigationView.PaneFooter>
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
                     <Button x:Name="btnWrite" Click="btnWrite_Click">Exporter les projets</Button>
+                    <Button x:Name="btnLogin" Click="btnLogin_Click">Connexion</Button>
                 </StackPanel>
             </NavigationView.PaneFooter>
             <Frame x:Name="mainFrame" Grid.Row="1"/>

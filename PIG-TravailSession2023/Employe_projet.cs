@@ -26,6 +26,14 @@ namespace PIG_TravailSession2023
             this.salaire = salaire;
         }
 
+        public Employe_projet (string matricule, string noProjet, double nbHeures, double salaire)
+        {
+            this.matricule = matricule;
+            this.noProjet = noProjet;
+            this.nbHeures = nbHeures;
+            this.salaire = salaire;
+        }
+
         public int Id
         {
             get => id; set => id = value;

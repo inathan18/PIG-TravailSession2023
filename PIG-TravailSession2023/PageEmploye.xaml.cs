@@ -24,6 +24,8 @@ namespace PIG_TravailSession2023
     /// </summary>
     public sealed partial class PageEmploye : Page
     {
+        string nom, prenom, email, adresse, urlPhoto, statut, selEmploye;
+        double tauxHoraire;
         public PageEmploye()
         {
             this.InitializeComponent();
@@ -34,7 +36,8 @@ namespace PIG_TravailSession2023
         {
             try
             {
-                if (Singleton.getInstance().getListeEmploye().Count > 0 && lvEmploye.SelectedItem != null) {
+                if (Singleton.getInstance().getListeEmploye().Count > 0 && lvEmploye.SelectedItem != null)
+                {
                     Employe lvEmp = lvEmploye.SelectedItem as Employe;
                     tblMatricule.Text = "Matricule: " + lvEmp.Matricule;
                     tblPrenom.Text = "Prénom: " + lvEmp.Prenom;
@@ -60,7 +63,11 @@ namespace PIG_TravailSession2023
                 tblErrorPhoto.Visibility = Visibility.Collapsed;
                 tblErrorPrenom.Visibility = Visibility.Collapsed;
                 tblErrorTauxHoraire.Visibility = Visibility.Collapsed;
-                
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
             }
 
         }
@@ -68,10 +75,48 @@ namespace PIG_TravailSession2023
         private void btnEdit_Click(object sender, RoutedEventArgs e)
         {
 
+
+            tbxPrenom.Visibility = Visibility.Visible;
+            tbxNom.Visibility = Visibility.Visible;
+            tbxEmail.Visibility = Visibility.Visible;
+            tbxAdresse.Visibility = Visibility.Visible;
+            nbxTauxHoraire.Visibility = Visibility.Visible;
+            tbxPhoto.Visibility = Visibility.Visible;
+            tgsStatut.Visibility = Visibility.Visible;
+            btnSave.Visibility = Visibility.Visible;
+
+            var emp = Singleton.getInstance().getEmploye(lvEmploye.SelectedIndex);
+            tbxAdresse.Text = emp.Adresse.ToString();
+            tbxEmail.Text = emp.Email.ToString();
+            tbxNom.Text = emp.Nom.ToString();
+            tbxPhoto.Text = emp.Photo.ToString();
+            tbxPrenom.Text = emp.Prenom.ToString();
+            nbxTauxHoraire.Value = emp.TauxHoraire;
+
+            if (emp.Statut == "Permanent")
+            {
+                tgsStatut.IsEnabled = true;
+            }
+            else
+            {
+                tgsStatut.IsEnabled = false;
+            }
+
+            selEmploye = emp.Matricule;
         }
 
         private void btnDelete_Click(object sender, RoutedEventArgs e)
         {
+
+            try
+            {
+                Singleton.getInstance().SupprimerEmploye(lvEmploye.SelectedIndex);
+            }
+            catch (Exception ex)
+            {
+                string s = ex.Message;
+            }
+
 
         }
         private void SetNumberBoxNumberFormatter()
@@ -89,7 +134,118 @@ namespace PIG_TravailSession2023
 
         private void btnSave_Click(object sender, RoutedEventArgs e)
         {
+            string matricule = selEmploye;
+            Boolean erreurNom = false, erreurPrenom = false, erreurEmail = false, erreurAdresse = false, erreurTauxHoraire = false, erreurPhoto = false;
 
+            if (string.IsNullOrEmpty(prenom))
+            {
+                tblErrorPrenom.Visibility = Visibility.Visible;
+                erreurPrenom = true;
+            }
+            else
+            {
+                tblErrorPrenom.Visibility = Visibility.Collapsed;
+                erreurPrenom = false;
+            }
+            if (string.IsNullOrEmpty(nom))
+            {
+                tblErrorNom.Visibility = Visibility.Visible;
+                erreurNom = true;
+            }
+            else
+            {
+                tblErrorNom.Visibility = Visibility.Collapsed;
+                erreurNom = false;
+            }
+            if (string.IsNullOrEmpty(email))
+            {
+                tblErrorEmail.Visibility = Visibility.Visible;
+                erreurEmail = true;
+            }
+            else
+            {
+                tblErrorEmail.Visibility = Visibility.Collapsed;
+                erreurEmail = false;
+            }
+            if (string.IsNullOrEmpty(adresse))
+            {
+                tblErrorAdresse.Visibility = Visibility.Visible;
+                erreurAdresse = true;
+            }
+            else
+            {
+                tblErrorAdresse.Visibility = Visibility.Collapsed;
+                erreurAdresse = false;
+            }
+            if (string.IsNullOrEmpty(tauxHoraire.ToString()) || tauxHoraire.ToString() == "NaN")
+            {
+                tblErrorTauxHoraire.Visibility = Visibility.Visible;
+                erreurTauxHoraire = true;
+            }
+            else
+            {
+                tblErrorTauxHoraire.Visibility = Visibility.Collapsed;
+                erreurTauxHoraire = false;
+            }
+            if (string.IsNullOrEmpty(urlPhoto))
+            {
+                tblErrorPhoto.Visibility = Visibility.Visible;
+                erreurPhoto = true;
+            }
+            else
+            {
+                tblErrorPhoto.Visibility = Visibility.Collapsed;
+                erreurPhoto = false;
+            }
+
+            if (erreurAdresse == false && erreurEmail == false && erreurNom == false && erreurPhoto == false && erreurPrenom == false && erreurTauxHoraire == false)
+            {
+
+                Singleton.getInstance().ModifierEmploye(matricule, nom, prenom, email, adresse, statut, tauxHoraire, new Uri(urlPhoto));
+            }
+        }
+
+        private void tbxPrenom_SelectionChanged(object sender, RoutedEventArgs e)
+        {
+            prenom = tbxPrenom.Text;
+        }
+
+        private void tbxNom_SelectionChanged(object sender, RoutedEventArgs e)
+        {
+            nom = tbxNom.Text;
+        }
+
+        private void tbxEmail_SelectionChanged(object sender, RoutedEventArgs e)
+        {
+            email = tbxEmail.Text;
+
+        }
+
+        private void tbxAdresse_SelectionChanged(object sender, RoutedEventArgs e)
+        {
+            adresse = tbxAdresse.Text;
+        }
+
+        private void nbxTauxHoraire_ValueChanged(NumberBox sender, NumberBoxValueChangedEventArgs args)
+        {
+            tauxHoraire = nbxTauxHoraire.Value;
+        }
+
+        private void tbxPhoto_SelectionChanged(object sender, RoutedEventArgs e)
+        {
+            urlPhoto = tbxPhoto.Text;
+        }
+
+        private void tgsStatut_IsEnabledChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            if (tgsStatut.IsEnabled)
+            {
+                statut = "Permanent";
+            }
+            else
+            {
+                statut = "Journalier";
+            }
         }
     }
 }

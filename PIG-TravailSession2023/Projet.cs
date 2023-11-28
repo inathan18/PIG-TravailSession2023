@@ -31,6 +31,18 @@ namespace PIG_TravailSession2023
             this.salaires = salaires;
         }
 
+        public Projet(string titre, string dateDebut, string description, string statut, int nbEmployes, int client, double budget, double salaires)
+        {
+            this.titre = titre;
+            this.dateDebut = dateDebut;
+            this.description = description;
+            this.statut = statut;
+            this.nbEmployes = nbEmployes;
+            this.client = client;
+            this.budget = budget;
+            this.salaires = salaires;
+        }
+
         public string NoProjet
         {
             get => noProjet;

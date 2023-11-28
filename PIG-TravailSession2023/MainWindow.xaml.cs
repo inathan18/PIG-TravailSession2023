@@ -71,5 +71,22 @@ namespace PIG_TravailSession2023
             }
 
         }
+
+        private async void btnLogin_Click(object sender, RoutedEventArgs e)
+        {
+            Login login = new Login();
+            login.XamlRoot = MainGrid.XamlRoot;
+            login.Title = "Authentification";
+            login.PrimaryButtonText = "Se connecter";
+            login.CloseButtonText = "Annuler";
+            login.DefaultButton = ContentDialogButton.Primary;
+
+            ContentDialogResult resultat = await login.ShowAsync();
+
+            if (resultat == ContentDialogResult.Primary)
+            {
+                
+            }
+        }
     }
 }

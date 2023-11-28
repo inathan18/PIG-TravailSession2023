@@ -25,6 +25,14 @@ namespace PIG_TravailSession2023
             this.email = email;
         }
 
+        public Client(string nom, string adresse, string numTel, string email)
+        {
+            this.nom = nom;
+            this.adresse = adresse;
+            this.numTel = numTel;
+            this.email = email;
+        }
+
         public int Id
         {
             get => id;

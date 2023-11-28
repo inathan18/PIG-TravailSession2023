@@ -61,7 +61,7 @@
                         <BitmapImage UriSource="" x:Name="imgURI"/>
                     </Image.Source>
                 </Image>
-                
+
             </StackPanel>
         </ScrollViewer>
         <StackPanel>
@@ -70,31 +70,31 @@
         </StackPanel>
 
         <StackPanel Grid.Column="0" Grid.Row="2" Orientation="Vertical" VerticalAlignment="Center" Margin="10,10,10,10">
-            <TextBox x:Name="tbxPrenom" Header="Prénom: " Width="200" Visibility="Collapsed"/>
+            <TextBox x:Name="tbxPrenom" Header="Prénom: " Width="200" Visibility="Collapsed" SelectionChanged="tbxPrenom_SelectionChanged"/>
             <TextBlock x:Name="tblErrorPrenom" Text="Le prénom ne doit pas être vide !" Visibility="Collapsed" Foreground="Red"/>
         </StackPanel>
         <StackPanel Grid.Column="0" Grid.Row="3" Orientation="Vertical" VerticalAlignment="Center" Margin="10,10,10,10">
-            <TextBox x:Name="tbxNom" Header="Nom: " Width="200" Visibility="Collapsed"/>
+            <TextBox x:Name="tbxNom" Header="Nom: " Width="200" Visibility="Collapsed" SelectionChanged="tbxNom_SelectionChanged"/>
             <TextBlock x:Name="tblErrorNom" Text="Le nom ne doit pas être vide !" Visibility="Collapsed" Foreground="Red"/>
         </StackPanel>
         <StackPanel Grid.Column="1" Grid.Row="2" Orientation="Vertical" VerticalAlignment="Center" Margin="10,10,10,10">
-            <TextBox x:Name="tbxEmail" Header="Courriel: " Width="200" Visibility="Collapsed"/>
+            <TextBox x:Name="tbxEmail" Header="Courriel: " Width="200" Visibility="Collapsed" SelectionChanged="tbxEmail_SelectionChanged"/>
             <TextBlock x:Name="tblErrorEmail" Text="L'adresse courriel doit être valide !" Visibility="Collapsed" Foreground="Red"/>
         </StackPanel>
         <StackPanel Grid.Column="1" Grid.Row="3" Orientation="Vertical" VerticalAlignment="Center" Margin="10,10,10,10">
-            <TextBox x:Name="tbxAdresse" Header="Adresse: " Width="200" Visibility="Collapsed"/>
+            <TextBox x:Name="tbxAdresse" Header="Adresse: " Width="200" Visibility="Collapsed" SelectionChanged="tbxAdresse_SelectionChanged"/>
             <TextBlock x:Name="tblErrorAdresse" Text="L'adresse ne doit pas être vide !" Visibility="Collapsed" Foreground="Red"/>
         </StackPanel>
         <StackPanel Grid.Column="2" Grid.Row="2" Orientation="Vertical" VerticalAlignment="Center" Margin="10,10,10,10">
-            <NumberBox x:Name="nbxTauxHoraire" Header="Taux Horaire: " PlaceholderText="0.00" />
+            <NumberBox x:Name="nbxTauxHoraire" Header="Taux Horaire: " PlaceholderText="0.00" ValueChanged="nbxTauxHoraire_ValueChanged"/>
             <TextBlock x:Name="tblErrorTauxHoraire" Text="Le taux horaire doit être de minimum 15$." Visibility="Collapsed" Foreground="Red"/>
         </StackPanel>
         <StackPanel Grid.Column="2" Grid.Row="3" Orientation="Vertical" VerticalAlignment="Center" Margin="10,10,10,10">
-            <TextBox x:Name="tbxPhoto" Header="Photo (URL): " Width="500" Visibility="Collapsed"/>
+            <TextBox x:Name="tbxPhoto" Header="Photo (URL): " Width="500" Visibility="Collapsed" SelectionChanged="tbxPhoto_SelectionChanged"/>
             <TextBlock x:Name="tblErrorPhoto" Text="Le lien de la photo doit être valide" Visibility="Collapsed" Foreground="Red"/>
         </StackPanel>
         <StackPanel Grid.Column="3" Grid.Row="2" Orientation="Vertical" VerticalAlignment="Center" Margin="10,10,10,10">
-            <ToggleSwitch x:Name="tgsStatut" Header="Statut: " OffContent="Journalier" OnContent="Permanent"/>
+            <ToggleSwitch x:Name="tgsStatut" Header="Statut: " OffContent="Journalier" OnContent="Permanent" IsEnabledChanged="tgsStatut_IsEnabledChanged"/>
         </StackPanel>
         <StackPanel Grid.Column="3" Grid.Row="3" Orientation="Horizontal" VerticalAlignment="Center" Margin="10,10,10,10">
             <Button x:Name="btnSave" Click="btnSave_Click" Visibility="Collapsed">Enregistrer</Button>

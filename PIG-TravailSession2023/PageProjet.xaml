@@ -10,6 +10,91 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="2*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <ScrollViewer Grid.Column="0" Grid.Row="0">
+            <StackPanel Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Top">
+                <TextBlock Text="Liste des projets"/>
+                <ListView x:Name="lvProjet" SelectionChanged="lvProjet_SelectionChanged">
+                    <ListView.ItemTemplate>
+                        <DataTemplate x:DataType="local:Projet">
+                            <StackPanel Orientation="Horizontal" Margin="5" HorizontalAlignment="Stretch">
+                                <TextBlock Margin="10,10,10,10">
+                                <Run Text="{x:Bind NoProjet}"/>
+                                <Run Text=" "/>
+                                <Run Text="{x:Bind Titre}"/>
+                                </TextBlock>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+                <TextBlock Text="Vide" FontSize="20" x:Name="tblEmpty" Visibility="Visible" />
+            </StackPanel>
+        </ScrollViewer>
+        <ScrollViewer Grid.Column="1" Grid.Row="0" Grid.ColumnSpan="2">
+            <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Top">
+                <TextBlock Text="Projet Sélectionné"/>
+                <TextBlock x:Name="tblNoProjet" Text=""/>
+                <TextBlock x:Name="tblTitre" Text=""/>
+                <TextBlock x:Name="tblDateDebut" Text=""/>
+                <TextBlock x:Name="tblDescription" Text=""/>
+                <TextBlock x:Name="tblBudget" Text=""/>
+                <TextBlock x:Name="tblNbEmployes" Text=""/>
+                <TextBlock x:Name="tblTotalSalaire" Text=""/>
+                <TextBlock x:Name="tblClient" Text=""/>
+                <TextBlock x:Name="tblStatut" Text=""/>
+            </StackPanel>
+        </ScrollViewer>
+        <StackPanel>
+            <Button x:Name="btnEdit" Content="Modifier" Click="btnEdit_Click" IsEnabled="False"/>
+            <Button x:Name="btnDelete" Content="Supprimer" Click="btnDelete_Click" IsEnabled="False"/>
+        </StackPanel>
+
+        <StackPanel Grid.Column="0" Grid.Row="2" Orientation="Vertical" VerticalAlignment="Center" Margin="10,10,10,10">
+            <TextBox x:Name="tbxTitre" Header="Titre: " Width="200" Visibility="Collapsed" SelectionChanged="tbxTitre_SelectionChanged"/>
+            <TextBlock x:Name="tblErrorTitre" Text="Le titre ne doit pas être vide !" Visibility="Collapsed" Foreground="Red"/>
+        </StackPanel>
+        <StackPanel Grid.Column="0" Grid.Row="3" Orientation="Vertical" VerticalAlignment="Center" Margin="10,10,10,10">
+            <DatePicker x:Name="dpDateDebut" Header="Date de début: " Width="200" Visibility="Collapsed" SelectedDateChanged="dpDateDebut_SelectedDateChanged"/>
+            <TextBlock x:Name="tblErrorDateDebut" Text="La date de début doit être valide !" Visibility="Collapsed" Foreground="Red"/>
+        </StackPanel>
+        <StackPanel Grid.Column="1" Grid.Row="2" Orientation="Vertical" VerticalAlignment="Center" Margin="10,10,10,10">
+            <TextBox x:Name="tbxDescription" Header="Description: " Width="200" Visibility="Collapsed" SelectionChanged="tbxDescription_SelectionChanged"/>
+            <TextBlock x:Name="tblErrorDescription" Text="La description ne doit pas être vide !" Visibility="Collapsed" Foreground="Red"/>
+        </StackPanel>
+        <StackPanel Grid.Column="1" Grid.Row="3" Orientation="Vertical" VerticalAlignment="Center" Margin="10,10,10,10">
+            <NumberBox x:Name="nbxBudget" Header="Budget: " Width="500" Visibility="Collapsed" ValueChanged="nbxBudget_ValueChanged"/>
+            <TextBlock x:Name="tblErrorBudget" Text="Le budget doit être valide" Visibility="Collapsed" Foreground="Red"/>
+        </StackPanel>
+        <StackPanel Grid.Column="2" Grid.Row="2" Orientation="Vertical" VerticalAlignment="Center" Margin="10,10,10,10">
+            <NumberBox x:Name="nbxNbEmployes" Header="Nombre d'employés: " PlaceholderText="Max 5" Minimum="1" ValueChanged="nbxNbEmployes_ValueChanged" Maximum="5"/>
+            <TextBlock x:Name="tblErrorNbEmployes" Text="Le nombre d'employé est requis" Visibility="Collapsed" Foreground="Red"/>
+        </StackPanel>
+       <!-- Connexion avec liste client à faire
+        <StackPanel Grid.Column="2" Grid.Row="3" Orientation="Vertical" VerticalAlignment="Center" Margin="10,10,10,10">
+            <TextBox x:Name="tbxPhoto" Header="Photo (URL): " Width="500" Visibility="Collapsed" SelectionChanged="tbxPhoto_SelectionChanged"/>
+            <TextBlock x:Name="tblErrorPhoto" Text="Le lien de la photo doit être valide" Visibility="Collapsed" Foreground="Red"/>
+        </StackPanel> -->
+        <StackPanel Grid.Column="3" Grid.Row="2" Orientation="Vertical" VerticalAlignment="Center" Margin="10,10,10,10">
+            <ToggleSwitch x:Name="tgsStatut" Header="Statut: " OffContent="En cours" OnContent="Terminé" IsEnabledChanged="tgsStatut_IsEnabledChanged"/>
+        </StackPanel>
+        <StackPanel Grid.Column="3" Grid.Row="3" Orientation="Horizontal" VerticalAlignment="Center" Margin="10,10,10,10">
+            <Button x:Name="btnSave" Click="btnSave_Click" Visibility="Collapsed">Enregistrer</Button>
+        </StackPanel>
+        <StackPanel Grid.Column="3" Grid.Row ="4" Orientation="Horizontal" VerticalAlignment="Center" Margin="10,10,10,10">
+            <TextBlock x:Name="tblSuccess" Text="Enregistrer avec succès !" Visibility="Collapsed"/>
+        </StackPanel>
 
     </Grid>
 </Page>
