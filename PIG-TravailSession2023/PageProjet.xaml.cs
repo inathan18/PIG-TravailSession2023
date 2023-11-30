@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using Windows.ApplicationModel.UserDataTasks.DataProvider;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 
@@ -23,9 +24,14 @@ namespace PIG_TravailSession2023
     /// </summary>
     public sealed partial class PageProjet : Page
     {
+        string description, titre, dateDebut, statut, selProjet, noProjet;
+        double budget;
+        int nbEmployes, client;
         public PageProjet()
         {
             this.InitializeComponent();
+            lvProjet.ItemsSource = Singleton.getInstance().getListeProjetBD();
+            cbxClient.ItemsSource = Singleton.getInstance().getListeClientBD();
         }
 
         private void lvProjet_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -44,6 +50,11 @@ namespace PIG_TravailSession2023
                     tblStatut.Text = "Statut: " + lvProj.Statut;
                     tblTotalSalaire.Text = "Salaires: " + lvProj.Salaires.ToString();
                     tblTitre.Text = "Titre: " + lvProj.Titre;
+                    selectedView.Visibility = Visibility.Visible;
+                    btnEdit.Visibility = Visibility.Visible;
+                    btnDelete.Visibility = Visibility.Visible;
+                    selProjet = "";
+
                 }
 
                 tbxDescription.Visibility = Visibility.Collapsed;
@@ -52,6 +63,7 @@ namespace PIG_TravailSession2023
                 nbxNbEmployes.Visibility = Visibility.Collapsed;
                 tgsStatut.Visibility = Visibility.Collapsed;
                 dpDateDebut.Visibility = Visibility.Collapsed;
+                cbxClient.Visibility = Visibility.Collapsed;
             }
             catch (Exception ex)
             {
@@ -61,47 +73,184 @@ namespace PIG_TravailSession2023
 
         private void btnEdit_Click(object sender, RoutedEventArgs e)
         {
+            tbxDescription.Visibility = Visibility.Visible;
+            tbxTitre.Visibility = Visibility.Visible;
+            nbxBudget.Visibility = Visibility.Visible;
+            nbxNbEmployes.Visibility = Visibility.Visible;
+            tgsStatut.Visibility = Visibility.Visible;
+            dpDateDebut.Visibility = Visibility.Visible;
+            cbxClient.Visibility = Visibility.Visible;
 
+            var proj = Singleton.getInstance().getProjet(lvProjet.SelectedIndex);
+            tbxDescription.Text = proj.Description.ToString();
+            tbxTitre.Text = proj.Titre.ToString();
+            nbxBudget.Value = proj.Budget;
+            nbxNbEmployes.Value = proj.NbEmployes;
+            dpDateDebut.SelectedDate = DateTime.Parse(proj.DateDebut);
+            cbxClient.SelectedValue = proj.Client;
+
+            if (proj.Statut == "Terminé")
+            {
+                tgsStatut.IsEnabled = true;
+            }
+            else
+            {
+                tgsStatut.IsEnabled = false;
+            }
+
+            selProjet = proj.NoProjet;
         }
 
         private void btnDelete_Click(object sender, RoutedEventArgs e)
         {
+            try
+            {
+                Singleton.getInstance().SupprimerProjet(lvProjet.SelectedIndex);
+            }
+            catch (Exception ex)
+            {
+                string s = ex.Message;
+                Console.WriteLine(s);
+            }
 
         }
 
         private void tbxTitre_SelectionChanged(object sender, RoutedEventArgs e)
         {
+            titre = tbxTitre.Text;
 
         }
 
         private void dpDateDebut_SelectedDateChanged(DatePicker sender, DatePickerSelectedValueChangedEventArgs args)
         {
+            dateDebut = dpDateDebut.ToString();
+        }
 
+        private void btnAdd_Click(object sender, RoutedEventArgs e)
+        {
+            selProjet = "";
+            tbxDescription.Visibility = Visibility.Visible;
+            tbxTitre.Visibility = Visibility.Visible;
+            nbxBudget.Visibility = Visibility.Visible;
+            nbxNbEmployes.Visibility = Visibility.Visible;
+            tgsStatut.Visibility = Visibility.Visible;
+            dpDateDebut.Visibility = Visibility.Visible;
+            cbxClient.Visibility = Visibility.Visible;
+
+
+        }
+
+        private void cbxClient_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            Client lvClie = cbxClient.SelectedItem as Client;
+            client = lvClie.Id;
         }
 
         private void tbxDescription_SelectionChanged(object sender, RoutedEventArgs e)
         {
-
+            description = tbxDescription.Text;
         }
 
         private void nbxBudget_ValueChanged(NumberBox sender, NumberBoxValueChangedEventArgs args)
         {
-
+            budget = nbxBudget.Value;
         }
 
         private void nbxNbEmployes_ValueChanged(NumberBox sender, NumberBoxValueChangedEventArgs args)
         {
-
+            nbEmployes = (int)nbxNbEmployes.Value;
         }
 
         private void tgsStatut_IsEnabledChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
-
+            if (tgsStatut.IsEnabled)
+            {
+                statut = "Terminé";
+            }
+            else
+            {
+                statut = "En cours";
+            }
         }
 
         private void btnSave_Click(object sender, RoutedEventArgs e)
         {
+            string noProj = selProjet;
+            Boolean erreurTitre = false, erreurDescription = false, erreurDateDebut = false, erreurBudget = false, erreurNbEmployes = false, erreurClient = false;
 
+            if (string.IsNullOrEmpty(titre))
+            {
+                tblErrorTitre.Visibility = Visibility.Visible;
+                erreurTitre = true;
+            }
+            else
+            {
+                tblErrorTitre.Visibility = Visibility.Collapsed;
+                erreurTitre = false;
+            }
+            if (string.IsNullOrEmpty(description))
+            {
+                tblErrorDescription.Visibility = Visibility.Visible;
+                erreurDescription = true;
+            }
+            else
+            {
+                tblErrorDescription.Visibility = Visibility.Collapsed;
+                erreurDescription = false;
+            }
+            if (string.IsNullOrEmpty(budget.ToString()) || budget.ToString() == "NaN")
+            {
+                tblErrorBudget.Visibility = Visibility.Visible;
+                erreurBudget = true;
+            }
+            else
+            {
+                tblErrorBudget.Visibility = Visibility.Collapsed;
+                erreurBudget = false;
+            }
+            if (string.IsNullOrEmpty(dateDebut))
+            {
+                tblErrorDateDebut.Visibility = Visibility.Visible;
+                erreurDateDebut = true;
+            }
+            else
+            {
+                tblErrorDateDebut.Visibility = Visibility.Collapsed;
+                erreurDateDebut = false;
+            }
+            if (string.IsNullOrEmpty(nbEmployes.ToString()) || nbEmployes.ToString() == "NaN")
+            {
+                tblErrorNbEmployes.Visibility = Visibility.Visible;
+                erreurNbEmployes = true;
+            }
+            else
+            {
+                tblErrorNbEmployes.Visibility = Visibility.Collapsed;
+                erreurNbEmployes = false;
+            }
+            if (string.IsNullOrEmpty(client.ToString()) || client.ToString() == "NaN")
+            {
+                tblErrorClient.Visibility = Visibility.Visible;
+                erreurClient = true;
+            }
+            else
+            {
+                tblErrorClient.Visibility = Visibility.Collapsed;
+                erreurClient = false;
+            }
+
+            if (erreurBudget == false && erreurDateDebut == false && erreurDescription == false && erreurNbEmployes == false && erreurTitre == false && erreurClient == false)
+            {
+                if (string.IsNullOrEmpty(selProjet))
+                {
+                    Projet projet = new Projet(titre, dateDebut, description, statut, nbEmployes, client, budget, 0);
+                    Singleton.getInstance().AjouterProjet(projet);
+                }
+                else
+                {
+                    Singleton.getInstance().ModifierProjet(noProjet, titre, dateDebut, description, statut, nbEmployes, client, budget);
+                }
+            }
         }
     }
 }

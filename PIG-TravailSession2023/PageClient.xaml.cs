@@ -43,6 +43,9 @@ namespace PIG_TravailSession2023
                     tblId.Text = "ID: " + lvCli.Id.ToString();
                     tblNom.Text = "Nom: " + lvCli.Nom;
                     tblNumTel.Text = "Numéro de téléphone: " + lvCli.NumTel;
+                    btnDelete.Visibility = Visibility.Visible;
+                    btnEdit.Visibility = Visibility.Visible;
+                    selectedView.Visibility = Visibility.Visible;
                 }
                 tbxAdresse.Visibility = Visibility.Visible;
                 tbxEmail.Visibility = Visibility.Collapsed;

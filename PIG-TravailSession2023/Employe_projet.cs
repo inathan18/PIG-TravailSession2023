@@ -9,7 +9,7 @@ namespace PIG_TravailSession2023
     class Employe_projet
     {
         int id;
-        string matricule, noProjet;
+        string matricule, noProjet, nomEmploye, titre;
         double nbHeures, salaire;
 
         public Employe_projet()
@@ -26,12 +26,22 @@ namespace PIG_TravailSession2023
             this.salaire = salaire;
         }
 
-        public Employe_projet (string matricule, string noProjet, double nbHeures, double salaire)
+        public Employe_projet(string matricule, string noProjet, double nbHeures, double salaire)
         {
             this.matricule = matricule;
             this.noProjet = noProjet;
             this.nbHeures = nbHeures;
             this.salaire = salaire;
+        }
+        public Employe_projet(string matricule, string noProjet, double nbHeures, double salaire, string nomEmploye, string titre)
+        {
+            this.matricule = matricule;
+            this.noProjet = noProjet;
+            this.nbHeures = nbHeures;
+            this.salaire = salaire;
+            this.nomEmploye = nomEmploye;
+            this.titre = titre;
+
         }
 
         public int Id
@@ -47,12 +57,20 @@ namespace PIG_TravailSession2023
 
         public string NoProjet
         {
-           get=> noProjet; set => noProjet = value;
+            get => noProjet; set => noProjet = value;
+        }
+        public string NomEmploye
+        {
+            get => nomEmploye; set => nomEmploye = value;
+        }
+        public string Titre
+        {
+            get => titre; set => titre = value;
         }
 
         public double NbHeures
         {
-            get=>nbHeures; set => nbHeures = value;
+            get => nbHeures; set => nbHeures = value;
         }
 
         public double Salaire
@@ -62,7 +80,7 @@ namespace PIG_TravailSession2023
 
         public string toCSV()
         {
-            return id.ToString() + ';' + matricule + ';' + noProjet + ";" + nbHeures.ToString() + ';' + salaire.ToString();
+            return id.ToString() + ';' + matricule + ';' + noProjet + ";" + nbHeures.ToString() + ';' + salaire.ToString() + ';' + nomEmploye.ToString() + ';' + titre.ToString();
         }
     }
 }

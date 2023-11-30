@@ -49,6 +49,10 @@ namespace PIG_TravailSession2023
                     tblTauxHoraire.Text = lvEmp.TauxHoraire.ToString();
                     imgURI.UriSource = lvEmp.Photo;
                     tblStatut.Text = lvEmp.Statut;
+                    selectedView.Visibility = Visibility.Visible;
+                    btnDelete.Visibility = Visibility.Visible;
+                    btnEdit.Visibility = Visibility.Visible;
+                    selEmploye = "";
                 }
                 tbxAdresse.Visibility = Visibility.Collapsed;
                 tbxEmail.Visibility = Visibility.Collapsed;
@@ -56,6 +60,7 @@ namespace PIG_TravailSession2023
                 tbxPhoto.Visibility = Visibility.Collapsed;
                 tbxPrenom.Visibility = Visibility.Collapsed;
                 tgsStatut.Visibility = Visibility.Collapsed;
+                nbxTauxHoraire.Visibility = Visibility.Collapsed;
                 btnSave.Visibility = Visibility.Collapsed;
                 tblErrorAdresse.Visibility = Visibility.Collapsed;
                 tblErrorEmail.Visibility = Visibility.Collapsed;
@@ -95,11 +100,11 @@ namespace PIG_TravailSession2023
 
             if (emp.Statut == "Permanent")
             {
-                tgsStatut.IsEnabled = true;
+                tgsStatut.IsOn = true;
             }
             else
             {
-                tgsStatut.IsEnabled = false;
+                tgsStatut.IsOn = false;
             }
 
             selEmploye = emp.Matricule;
@@ -200,8 +205,15 @@ namespace PIG_TravailSession2023
 
             if (erreurAdresse == false && erreurEmail == false && erreurNom == false && erreurPhoto == false && erreurPrenom == false && erreurTauxHoraire == false)
             {
-
-                Singleton.getInstance().ModifierEmploye(matricule, nom, prenom, email, adresse, statut, tauxHoraire, new Uri(urlPhoto));
+                if (string.IsNullOrEmpty(selEmploye.ToString()))
+                {
+                    Employe employe = new Employe(nom, prenom, email, adresse, statut, tauxHoraire, new Uri(urlPhoto));
+                    Singleton.getInstance().AjouterEmploye(employe);
+                }
+                else
+                {
+                    Singleton.getInstance().ModifierEmploye(matricule, nom, prenom, email, adresse, statut, tauxHoraire, new Uri(urlPhoto));
+                }
             }
         }
 
@@ -209,6 +221,22 @@ namespace PIG_TravailSession2023
         {
             prenom = tbxPrenom.Text;
         }
+
+        private void btnAdd_Click(object sender, RoutedEventArgs e)
+        {
+            selEmploye = "";
+            tbxPrenom.Visibility = Visibility.Visible;
+            tbxNom.Visibility = Visibility.Visible;
+            tbxEmail.Visibility = Visibility.Visible;
+            tbxAdresse.Visibility = Visibility.Visible;
+            nbxTauxHoraire.Visibility = Visibility.Visible;
+            tbxPhoto.Visibility = Visibility.Visible;
+            tgsStatut.Visibility = Visibility.Visible;
+            btnSave.Visibility = Visibility.Visible;
+
+        }
+
+
 
         private void tbxNom_SelectionChanged(object sender, RoutedEventArgs e)
         {
@@ -236,9 +264,9 @@ namespace PIG_TravailSession2023
             urlPhoto = tbxPhoto.Text;
         }
 
-        private void tgsStatut_IsEnabledChanged(object sender, DependencyPropertyChangedEventArgs e)
+        private void tgsStatut_Toggled(object sender, RoutedEventArgs e)
         {
-            if (tgsStatut.IsEnabled)
+            if (tgsStatut.IsOn == true)
             {
                 statut = "Permanent";
             }

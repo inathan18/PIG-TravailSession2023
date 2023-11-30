@@ -25,6 +25,7 @@
         </Grid.RowDefinitions>
         <ScrollViewer Grid.Column="0" Grid.Row="0">
             <StackPanel Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Top">
+                <Button x:Name="btnAdd" Content="Ajout" Click="btnAdd_Click" IsEnabled="True" Visibility="Visible"/>
                 <TextBlock Text="Liste des projets"/>
                 <ListView x:Name="lvProjet" SelectionChanged="lvProjet_SelectionChanged">
                     <ListView.ItemTemplate>
@@ -43,7 +44,7 @@
             </StackPanel>
         </ScrollViewer>
         <ScrollViewer Grid.Column="1" Grid.Row="0" Grid.ColumnSpan="2">
-            <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Top">
+            <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Top" x:Name="selectedView" Visibility="Collapsed">
                 <TextBlock Text="Projet Sélectionné"/>
                 <TextBlock x:Name="tblNoProjet" Text=""/>
                 <TextBlock x:Name="tblTitre" Text=""/>
@@ -57,8 +58,8 @@
             </StackPanel>
         </ScrollViewer>
         <StackPanel>
-            <Button x:Name="btnEdit" Content="Modifier" Click="btnEdit_Click" IsEnabled="False"/>
-            <Button x:Name="btnDelete" Content="Supprimer" Click="btnDelete_Click" IsEnabled="False"/>
+            <Button x:Name="btnEdit" Content="Modifier" Click="btnEdit_Click" IsEnabled="False" Visibility="Collapsed"/>
+            <Button x:Name="btnDelete" Content="Supprimer" Click="btnDelete_Click" IsEnabled="False" Visibility="Collapsed"/>
         </StackPanel>
 
         <StackPanel Grid.Column="0" Grid.Row="2" Orientation="Vertical" VerticalAlignment="Center" Margin="10,10,10,10">
@@ -78,16 +79,29 @@
             <TextBlock x:Name="tblErrorBudget" Text="Le budget doit être valide" Visibility="Collapsed" Foreground="Red"/>
         </StackPanel>
         <StackPanel Grid.Column="2" Grid.Row="2" Orientation="Vertical" VerticalAlignment="Center" Margin="10,10,10,10">
-            <NumberBox x:Name="nbxNbEmployes" Header="Nombre d'employés: " PlaceholderText="Max 5" Minimum="1" ValueChanged="nbxNbEmployes_ValueChanged" Maximum="5"/>
+            <NumberBox x:Name="nbxNbEmployes" Header="Nombre d'employés: " PlaceholderText="Max 5" Minimum="1" ValueChanged="nbxNbEmployes_ValueChanged" Maximum="5" Visibility="Collapsed"/>
             <TextBlock x:Name="tblErrorNbEmployes" Text="Le nombre d'employé est requis" Visibility="Collapsed" Foreground="Red"/>
         </StackPanel>
-       <!-- Connexion avec liste client à faire
         <StackPanel Grid.Column="2" Grid.Row="3" Orientation="Vertical" VerticalAlignment="Center" Margin="10,10,10,10">
-            <TextBox x:Name="tbxPhoto" Header="Photo (URL): " Width="500" Visibility="Collapsed" SelectionChanged="tbxPhoto_SelectionChanged"/>
-            <TextBlock x:Name="tblErrorPhoto" Text="Le lien de la photo doit être valide" Visibility="Collapsed" Foreground="Red"/>
-        </StackPanel> -->
+            <ComboBox 
+                x:Name="cbxClient" Header="Client: " Width="500" Visibility="Collapsed" SelectionChanged="cbxClient_SelectionChanged"
+                      >
+                <ComboBox.ItemTemplate>
+                    <DataTemplate x:DataType="local:Client">
+                        <StackPanel Orientation="Horizontal" Margin="5" HorizontalAlignment="Stretch">
+                            <TextBlock Margin="10,10,10,10">
+                                <Run Text="{x:Bind Id}"/>
+                                <Run Text=" "/>
+                                <Run Text="{x:Bind Nom}"/>
+                            </TextBlock>
+                        </StackPanel>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+            <TextBlock x:Name="tblErrorClient" Text="Le client doit être valide" Visibility="Collapsed" Foreground="Red"/>
+        </StackPanel>
         <StackPanel Grid.Column="3" Grid.Row="2" Orientation="Vertical" VerticalAlignment="Center" Margin="10,10,10,10">
-            <ToggleSwitch x:Name="tgsStatut" Header="Statut: " OffContent="En cours" OnContent="Terminé" IsEnabledChanged="tgsStatut_IsEnabledChanged"/>
+            <ToggleSwitch x:Name="tgsStatut" Header="Statut: " OffContent="En cours" OnContent="Terminé" IsEnabledChanged="tgsStatut_IsEnabledChanged" Visibility="Collapsed"/>
         </StackPanel>
         <StackPanel Grid.Column="3" Grid.Row="3" Orientation="Horizontal" VerticalAlignment="Center" Margin="10,10,10,10">
             <Button x:Name="btnSave" Click="btnSave_Click" Visibility="Collapsed">Enregistrer</Button>

@@ -25,6 +25,7 @@
         </Grid.RowDefinitions>
         <ScrollViewer Grid.Column="0" Grid.Row="0">
             <StackPanel Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Top">
+                <Button x:Name="btnAdd" Content="Ajout" Click="btnAdd_Click"  IsEnabled="True" Visibility="Visible"/>
                 <TextBlock Text="Liste des employés"/>
                 <ListView x:Name="lvEmploye" SelectionChanged="lvEmploye_SelectionChanged">
                     <ListView.ItemTemplate>
@@ -45,7 +46,7 @@
             </StackPanel>
         </ScrollViewer>
         <ScrollViewer Grid.Column="1" Grid.Row="0" Grid.ColumnSpan="2">
-            <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Top">
+            <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Top" Visibility="Collapsed" x:Name="selectedView">
                 <TextBlock Text="Employé Sélectionné"/>
                 <TextBlock x:Name="tblMatricule" Text=""/>
                 <TextBlock x:Name="tblPrenom" Text=""/>
@@ -65,8 +66,8 @@
             </StackPanel>
         </ScrollViewer>
         <StackPanel>
-            <Button x:Name="btnEdit" Content="Modifier" Click="btnEdit_Click" IsEnabled="False"/>
-            <Button x:Name="btnDelete" Content="Supprimer" Click="btnDelete_Click" IsEnabled="False"/>
+            <Button x:Name="btnEdit" Content="Modifier" Click="btnEdit_Click" IsEnabled="False" Visibility="Collapsed"/>
+            <Button x:Name="btnDelete" Content="Supprimer" Click="btnDelete_Click" IsEnabled="False" Visibility="Collapsed"/>
         </StackPanel>
 
         <StackPanel Grid.Column="0" Grid.Row="2" Orientation="Vertical" VerticalAlignment="Center" Margin="10,10,10,10">
@@ -86,7 +87,7 @@
             <TextBlock x:Name="tblErrorAdresse" Text="L'adresse ne doit pas être vide !" Visibility="Collapsed" Foreground="Red"/>
         </StackPanel>
         <StackPanel Grid.Column="2" Grid.Row="2" Orientation="Vertical" VerticalAlignment="Center" Margin="10,10,10,10">
-            <NumberBox x:Name="nbxTauxHoraire" Header="Taux Horaire: " PlaceholderText="0.00" ValueChanged="nbxTauxHoraire_ValueChanged"/>
+            <NumberBox x:Name="nbxTauxHoraire" Header="Taux Horaire: " PlaceholderText="0.00" ValueChanged="nbxTauxHoraire_ValueChanged" Visibility="Collapsed"/>
             <TextBlock x:Name="tblErrorTauxHoraire" Text="Le taux horaire doit être de minimum 15$." Visibility="Collapsed" Foreground="Red"/>
         </StackPanel>
         <StackPanel Grid.Column="2" Grid.Row="3" Orientation="Vertical" VerticalAlignment="Center" Margin="10,10,10,10">
@@ -94,7 +95,7 @@
             <TextBlock x:Name="tblErrorPhoto" Text="Le lien de la photo doit être valide" Visibility="Collapsed" Foreground="Red"/>
         </StackPanel>
         <StackPanel Grid.Column="3" Grid.Row="2" Orientation="Vertical" VerticalAlignment="Center" Margin="10,10,10,10">
-            <ToggleSwitch x:Name="tgsStatut" Header="Statut: " OffContent="Journalier" OnContent="Permanent" IsEnabledChanged="tgsStatut_IsEnabledChanged"/>
+            <ToggleSwitch x:Name="tgsStatut" Header="Statut: " OffContent="Journalier" OnContent="Permanent" Toggled="tgsStatut_Toggled" Visibility="Collapsed"/>
         </StackPanel>
         <StackPanel Grid.Column="3" Grid.Row="3" Orientation="Horizontal" VerticalAlignment="Center" Margin="10,10,10,10">
             <Button x:Name="btnSave" Click="btnSave_Click" Visibility="Collapsed">Enregistrer</Button>

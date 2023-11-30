@@ -20,7 +20,7 @@ namespace PIG_TravailSession2023
         ObservableCollection<Projet> listeProjet;
 
         static Singleton instance = null;
-        MySqlConnection con = new MySqlConnection("Server=cours.cegep3r.info;Database=a2023_420325ri_fabeq26;Uid=1343683;Pwd1343683");
+        MySqlConnection con = new MySqlConnection("Server=cours.cegep3r.info;Database=a2023_420325ri_fabeq26;Uid=1343683;Pwd=1343683");
 
         public Singleton()
         {
@@ -140,6 +140,8 @@ namespace PIG_TravailSession2023
                 string noProjet = (string)r["noProjet"];
                 double nbHeures = (double)r["nbHeures"];
                 double salaire = (double)r["salaire"];
+                string nomEmploye = (string)r["Nom employé"];
+                string titre = (string)r["titre"];
 
                 Employe_projet ep = new Employe_projet
                 {
@@ -147,7 +149,10 @@ namespace PIG_TravailSession2023
                     Matricule = matricule,
                     NoProjet = noProjet,
                     NbHeures = nbHeures,
-                    Salaire = salaire
+                    Salaire = salaire,
+                    NomEmploye = nomEmploye,
+                    Titre = titre  
+                    
                 };
 
                 listeEmploye_projet.Add(ep);
@@ -586,7 +591,7 @@ namespace PIG_TravailSession2023
                 Console.WriteLine(ex.Message);
             }
         }
-        public void ModifierProjet (string noProjet, string titre, string dateDebut, string description, string statut, int nbEmployes, int client, double budget, double salaires)
+        public void ModifierProjet (string noProjet, string titre, string dateDebut, string description, string statut, int nbEmployes, int client, double budget)
         {
             try
             {
