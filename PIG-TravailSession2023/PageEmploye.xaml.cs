@@ -24,12 +24,17 @@ namespace PIG_TravailSession2023
     /// </summary>
     public sealed partial class PageEmploye : Page
     {
-        string nom, prenom, email, adresse, urlPhoto, statut, selEmploye;
+        string nom, prenom, email, adresse, urlPhoto, statut, selEmploye, dateNaissance, dateEmbauche;
         double tauxHoraire;
         public PageEmploye()
         {
             this.InitializeComponent();
+
             lvEmploye.ItemsSource = Singleton.getInstance().getListeEmployeBD();
+            if (Singleton.getInstance().getListeEmploye().Count > 0 )
+            {
+                tblEmpty.Visibility = Visibility.Collapsed;
+            }
         }
 
         private void lvEmploye_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -54,6 +59,8 @@ namespace PIG_TravailSession2023
                     btnEdit.Visibility = Visibility.Visible;
                     selEmploye = "";
                 }
+
+
                 tbxAdresse.Visibility = Visibility.Collapsed;
                 tbxEmail.Visibility = Visibility.Collapsed;
                 tbxNom.Visibility = Visibility.Collapsed;
@@ -80,47 +87,55 @@ namespace PIG_TravailSession2023
         private void btnEdit_Click(object sender, RoutedEventArgs e)
         {
 
-
-            tbxPrenom.Visibility = Visibility.Visible;
-            tbxNom.Visibility = Visibility.Visible;
-            tbxEmail.Visibility = Visibility.Visible;
-            tbxAdresse.Visibility = Visibility.Visible;
-            nbxTauxHoraire.Visibility = Visibility.Visible;
-            tbxPhoto.Visibility = Visibility.Visible;
-            tgsStatut.Visibility = Visibility.Visible;
-            btnSave.Visibility = Visibility.Visible;
-
-            var emp = Singleton.getInstance().getEmploye(lvEmploye.SelectedIndex);
-            tbxAdresse.Text = emp.Adresse.ToString();
-            tbxEmail.Text = emp.Email.ToString();
-            tbxNom.Text = emp.Nom.ToString();
-            tbxPhoto.Text = emp.Photo.ToString();
-            tbxPrenom.Text = emp.Prenom.ToString();
-            nbxTauxHoraire.Value = emp.TauxHoraire;
-
-            if (emp.Statut == "Permanent")
+            if (Singleton.getInstance().getStatut())
             {
-                tgsStatut.IsOn = true;
-            }
-            else
-            {
-                tgsStatut.IsOn = false;
+                tbxPrenom.Visibility = Visibility.Visible;
+                tbxNom.Visibility = Visibility.Visible;
+                tbxEmail.Visibility = Visibility.Visible;
+                tbxAdresse.Visibility = Visibility.Visible;
+                nbxTauxHoraire.Visibility = Visibility.Visible;
+                tbxPhoto.Visibility = Visibility.Visible;
+                tgsStatut.Visibility = Visibility.Visible;
+                btnSave.Visibility = Visibility.Visible;
+
+                var emp = Singleton.getInstance().getEmploye(lvEmploye.SelectedIndex);
+                tbxAdresse.Text = emp.Adresse.ToString();
+                tbxEmail.Text = emp.Email.ToString();
+                tbxNom.Text = emp.Nom.ToString();
+                tbxPhoto.Text = emp.Photo.ToString();
+                tbxPrenom.Text = emp.Prenom.ToString();
+                nbxTauxHoraire.Value = emp.TauxHoraire;
+
+                if (emp.Statut == "Permanent")
+                {
+                    tgsStatut.IsOn = true;
+                }
+                else
+                {
+                    tgsStatut.IsOn = false;
+                }
+
+                selEmploye = emp.Matricule;
+
             }
 
-            selEmploye = emp.Matricule;
         }
 
         private void btnDelete_Click(object sender, RoutedEventArgs e)
         {
+            if (Singleton.getInstance().getStatut())
+            {
+                try
+                {
+                    Singleton.getInstance().SupprimerEmploye(lvEmploye.SelectedIndex);
+                }
+                catch (Exception ex)
+                {
+                    string s = ex.Message;
+                }
 
-            try
-            {
-                Singleton.getInstance().SupprimerEmploye(lvEmploye.SelectedIndex);
             }
-            catch (Exception ex)
-            {
-                string s = ex.Message;
-            }
+
 
 
         }
@@ -207,7 +222,8 @@ namespace PIG_TravailSession2023
             {
                 if (string.IsNullOrEmpty(selEmploye.ToString()))
                 {
-                    Employe employe = new Employe(nom, prenom, email, adresse, statut, tauxHoraire, new Uri(urlPhoto));
+                    Uri photo = new Uri(urlPhoto);
+                    Employe employe = new Employe(nom, prenom, email, adresse, statut, dateNaissance, dateEmbauche, tauxHoraire, photo);
                     Singleton.getInstance().AjouterEmploye(employe);
                 }
                 else
@@ -224,19 +240,39 @@ namespace PIG_TravailSession2023
 
         private void btnAdd_Click(object sender, RoutedEventArgs e)
         {
-            selEmploye = "";
-            tbxPrenom.Visibility = Visibility.Visible;
-            tbxNom.Visibility = Visibility.Visible;
-            tbxEmail.Visibility = Visibility.Visible;
-            tbxAdresse.Visibility = Visibility.Visible;
-            nbxTauxHoraire.Visibility = Visibility.Visible;
-            tbxPhoto.Visibility = Visibility.Visible;
-            tgsStatut.Visibility = Visibility.Visible;
-            btnSave.Visibility = Visibility.Visible;
+            if (Singleton.getInstance().getStatut())
+            {
+                selEmploye = "";
+                tbxPrenom.Visibility = Visibility.Visible;
+                tbxNom.Visibility = Visibility.Visible;
+                tbxEmail.Visibility = Visibility.Visible;
+                tbxAdresse.Visibility = Visibility.Visible;
+                nbxTauxHoraire.Visibility = Visibility.Visible;
+                tbxPhoto.Visibility = Visibility.Visible;
+                tgsStatut.Visibility = Visibility.Visible;
+                btnSave.Visibility = Visibility.Visible;
+                dpDateEmbauche.Visibility = Visibility.Visible;
+                dpDateNaissance.Visibility = Visibility.Visible;
+            }
+            else
+            {
+
+            }
+
 
         }
 
+        private void dpDateEmbauche_SelectedDateChanged(DatePicker sender, DatePickerSelectedValueChangedEventArgs args)
+        {
+            dateEmbauche = dpDateEmbauche.SelectedDate.Value.ToString("yyyy-MM-dd");
 
+        }
+
+        private void dpDateNaissance_SelectedDateChanged(DatePicker sender, DatePickerSelectedValueChangedEventArgs args)
+        {
+            dateNaissance = dpDateNaissance.SelectedDate.Value.ToString("yyyy-MM-dd");
+
+        }
 
         private void tbxNom_SelectionChanged(object sender, RoutedEventArgs e)
         {

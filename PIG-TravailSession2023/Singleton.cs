@@ -8,6 +8,9 @@ using System.Threading.Tasks;
 using Microsoft.Windows.ApplicationModel.Resources;
 using MySql.Data.MySqlClient;
 using MySqlX.XDevAPI;
+using System.Security.Cryptography;
+using System.IO;
+
 
 namespace PIG_TravailSession2023
 {
@@ -18,6 +21,8 @@ namespace PIG_TravailSession2023
         ObservableCollection<Employe> listeEmploye;
         ObservableCollection<Employe_projet> listeEmploye_projet;
         ObservableCollection<Projet> listeProjet;
+        ObservableCollection<User> listeUser;
+        bool loginStatus = false;
 
         static Singleton instance = null;
         MySqlConnection con = new MySqlConnection("Server=cours.cegep3r.info;Database=a2023_420325ri_fabeq26;Uid=1343683;Pwd=1343683");
@@ -28,7 +33,8 @@ namespace PIG_TravailSession2023
             listeEmploye = new ObservableCollection<Employe>();
             listeEmploye_projet = new ObservableCollection<Employe_projet>();
             listeProjet = new ObservableCollection<Projet>();
-            //reload();
+            listeUser = new ObservableCollection<User>();
+            reload();
         }
 
         public static Singleton getInstance()
@@ -38,6 +44,66 @@ namespace PIG_TravailSession2023
                 instance = new Singleton();
             }
             return instance;
+        }
+
+        public bool getStatut()
+        {
+            return loginStatus;
+        }
+
+        public string genererSHA256(string texte)
+        {
+            var sha256 = SHA256.Create();
+            byte[] bytes = sha256.ComputeHash(Encoding.UTF8.GetBytes(texte));
+
+            StringBuilder sb = new StringBuilder();
+            foreach (Byte b in bytes)
+            {
+                sb.Append(b.ToString("x2"));
+            }
+            return sb.ToString();
+        }
+
+
+        public bool AdminLogin(string user, string pass)
+        {
+            try
+            {
+                
+                MySqlCommand commande = new MySqlCommand("login");
+                commande.Connection = con;
+                commande.CommandType = System.Data.CommandType.StoredProcedure;
+                commande.Parameters.AddWithValue("@usager", user);
+
+                con.Open();
+                commande.Prepare();
+
+                MySqlDataReader r = commande.ExecuteReader();
+                if (r.Read())
+                {
+                    string username = (string)r["user"];
+                    string password = (string)r["password"];
+
+                    if(password == pass)
+                    {
+                        loginStatus = true;
+                    }
+                    else
+                    {
+                        loginStatus = false;
+                    }
+                }
+                r.Close();
+                con.Close();
+                return loginStatus;
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return false;
+            }
+
         }
 
         public ObservableCollection<Client> getListeClientBD()
@@ -60,7 +126,7 @@ namespace PIG_TravailSession2023
                 string adresse = (string)r["adresse"];
                 string numTel = (string)r["numTel"];
                 string email = (string)r["email"];
-                Client c = new Client { Id = id, Nom = nom, Adresse = adresse, Email = email };
+                Client c = new Client { Id = id, Nom = nom, Adresse = adresse, NumTel = numTel, Email = email };
 
                 listeClient.Add(c);
             }
@@ -91,8 +157,8 @@ namespace PIG_TravailSession2023
                 string email = (string)r["email"];
                 string adresse = (string)r["adresse"];
                 string statut = (string)r["statut"];
-                string dateNaissance = (string)r["dateNaissance"];
-                string dateEmbauche = (string)r["dateEmbauche"];
+                string dateNaissance = Convert.ToString(r["dateNaissance"]);
+                string dateEmbauche = Convert.ToString(r["dateEmbauche"]);
                 double tauxHoraire = (double)r["tauxHoraire"];
                 Uri photo = new Uri((string)r["photo"], UriKind.Absolute);
 
@@ -151,8 +217,8 @@ namespace PIG_TravailSession2023
                     NbHeures = nbHeures,
                     Salaire = salaire,
                     NomEmploye = nomEmploye,
-                    Titre = titre  
-                    
+                    Titre = titre
+
                 };
 
                 listeEmploye_projet.Add(ep);
@@ -208,7 +274,7 @@ namespace PIG_TravailSession2023
         }
         public List<Projet> getListeProjetBDCSV()
         {
-            
+
             MySqlCommand commande = new MySqlCommand("get_allprojects");
             commande.Connection = con;
             commande.CommandType = System.Data.CommandType.StoredProcedure;
@@ -306,7 +372,7 @@ namespace PIG_TravailSession2023
                 commande.Prepare();
                 commande.ExecuteNonQuery();
                 con.Close();
-                //reload();
+                reload();
             }
             catch (Exception ex)
             {
@@ -341,13 +407,15 @@ namespace PIG_TravailSession2023
                 commande.ExecuteNonQuery();
 
                 con.Close();
-                //reload();
+                reload();
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
             }
         }
+
+
 
         public void AjouterProjet(Projet projet)
         {
@@ -380,7 +448,7 @@ namespace PIG_TravailSession2023
                 commande.ExecuteNonQuery();
 
                 con.Close();
-                //reload();
+                reload();
             }
             catch (Exception ex)
             {
@@ -412,7 +480,7 @@ namespace PIG_TravailSession2023
                 commande.ExecuteNonQuery();
 
                 con.Close();
-                //reload();
+                reload();
             }
             catch (Exception ex)
             {
@@ -450,7 +518,7 @@ namespace PIG_TravailSession2023
                 commande.Prepare();
                 commande.ExecuteNonQuery();
                 con.Close();
-                //reload();
+                reload();
             }
             catch (Exception ex)
             {
@@ -474,7 +542,7 @@ namespace PIG_TravailSession2023
                 commande.Prepare();
                 commande.ExecuteNonQuery();
                 con.Close();
-                //reload();
+                reload();
             }
             catch (Exception ex)
             {
@@ -499,7 +567,7 @@ namespace PIG_TravailSession2023
                 commande.Prepare();
                 commande.ExecuteNonQuery();
                 con.Close();
-                //reload();
+                reload();
             }
             catch (Exception ex)
             {
@@ -523,7 +591,7 @@ namespace PIG_TravailSession2023
                 commande.Prepare();
                 commande.ExecuteNonQuery();
                 con.Close();
-                //reload();
+                reload();
             }
             catch (Exception ex)
             {
@@ -554,7 +622,7 @@ namespace PIG_TravailSession2023
                 commande.Prepare();
                 commande.ExecuteNonQuery();
                 con.Close();
-                //reload();
+                reload();
             }
             catch (Exception ex)
             {
@@ -584,14 +652,14 @@ namespace PIG_TravailSession2023
                 commande.ExecuteNonQuery();
 
                 con.Close();
-                //reload();
+                reload();
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
             }
         }
-        public void ModifierProjet (string noProjet, string titre, string dateDebut, string description, string statut, int nbEmployes, int client, double budget)
+        public void ModifierProjet(string noProjet, string titre, string dateDebut, string description, string statut, int nbEmployes, int client, double budget)
         {
             try
             {
@@ -614,7 +682,7 @@ namespace PIG_TravailSession2023
                 commande.ExecuteNonQuery();
 
                 con.Close();
-                //reload();
+                reload();
             }
             catch (Exception ex)
             {
@@ -641,7 +709,7 @@ namespace PIG_TravailSession2023
                 commande.ExecuteNonQuery();
 
                 con.Close();
-                //reload();
+                reload();
             }
             catch (Exception ex)
             {
@@ -655,6 +723,11 @@ namespace PIG_TravailSession2023
             listeEmploye.Clear();
             listeProjet.Clear();
             listeEmploye_projet.Clear();
+
+            reloadClient();
+            reloadEmploye();
+            reloadProject();
+            reloadEmployeeProject();
         }
 
         private void reloadEmploye()
@@ -679,8 +752,8 @@ namespace PIG_TravailSession2023
                 string email = (string)r["email"];
                 string adresse = (string)r["adresse"];
                 string statut = (string)r["statut"];
-                string dateNaissance = (string)r["dateNaissance"];
-                string dateEmbauche = (string)r["dateEmbauche"];
+                string dateNaissance = Convert.ToString(r["dateNaissance"]);
+                string dateEmbauche = Convert.ToString(r["dateEmbauche"]);
                 double tauxHoraire = (double)r["tauxHoraire"];
                 Uri photo = new Uri((string)r["photo"], UriKind.Absolute);
 
@@ -703,9 +776,124 @@ namespace PIG_TravailSession2023
 
             r.Close();
             con.Close();
-            
 
 
+
+        }
+
+        private void reloadProject()
+        {
+            listeProjet.Clear();
+            MySqlCommand commande = new MySqlCommand("get_allprojects");
+            commande.Connection = con;
+            commande.CommandType = System.Data.CommandType.StoredProcedure;
+
+            if (con.State != System.Data.ConnectionState.Open)
+            {
+                con.Open();
+            }
+
+            MySqlDataReader r = commande.ExecuteReader();
+
+            while (r.Read())
+            {
+                string noProjet = (string)r["noProjet"];
+                string titre = (string)r["titre"];
+                string dateDebut = (string)r["dateDebut"];
+                string description = (string)r["description"];
+                string statut = (string)r["statut"];
+                int nbEmployes = (int)r["nbEmployes"];
+                int client = (int)r["client"];
+                double budget = (double)r["budget"];
+                double salaires = (double)r["salaires"];
+
+                Projet p = new Projet
+                {
+                    NoProjet = noProjet,
+                    Titre = titre,
+                    DateDebut = dateDebut,
+                    Description = description,
+                    Statut = statut,
+                    NbEmployes = nbEmployes,
+                    Client = client,
+                    Budget = budget,
+                    Salaires = salaires,
+                };
+                listeProjet.Add(p);
+            }
+            r.Close();
+            con.Close();
+        }
+
+        private void reloadClient()
+        {
+            listeClient.Clear();
+            MySqlCommand commande = new MySqlCommand("get_allclients");
+            commande.Connection = con;
+            commande.CommandType = System.Data.CommandType.StoredProcedure;
+
+            if (con.State != System.Data.ConnectionState.Open)
+            {
+                con.Open();
+            }
+            MySqlDataReader r = commande.ExecuteReader();
+
+            while (r.Read())
+            {
+                int id = (int)r["id"];
+                string nom = (string)r["nom"];
+                string adresse = (string)r["adresse"];
+                string numTel = (string)r["numTel"];
+                string email = (string)r["email"];
+                Client c = new Client { Id = id, Nom = nom, Adresse = adresse, Email = email };
+
+                listeClient.Add(c);
+            }
+            r.Close();
+            con.Close();
+        }
+
+        private void reloadEmployeeProject()
+        {
+            listeEmploye_projet.Clear();
+            MySqlCommand commande = new MySqlCommand("get_allemployeeprojects");
+            commande.Connection = con;
+            commande.CommandType = System.Data.CommandType.StoredProcedure;
+
+            if (con.State != System.Data.ConnectionState.Open)
+            {
+                con.Open();
+            }
+
+            MySqlDataReader r = commande.ExecuteReader();
+
+            while (r.Read())
+            {
+
+                int id = (int)r["id"];
+                string matricule = (string)r["matricule"];
+                string noProjet = (string)r["noProjet"];
+                double nbHeures = (double)r["nbHeures"];
+                double salaire = (double)r["salaire"];
+                string nomEmploye = (string)r["Nom employé"];
+                string titre = (string)r["titre"];
+
+                Employe_projet ep = new Employe_projet
+                {
+                    Id = id,
+                    Matricule = matricule,
+                    NoProjet = noProjet,
+                    NbHeures = nbHeures,
+                    Salaire = salaire,
+                    NomEmploye = nomEmploye,
+                    Titre = titre
+
+                };
+
+                listeEmploye_projet.Add(ep);
+            }
+            r.Close();
+            con.Close();
         }
 
 

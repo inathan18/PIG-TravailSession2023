@@ -30,6 +30,18 @@ namespace PIG_TravailSession2023
             this.tauxHoraire = tauxHoraire;
             this.photo = photo;
         }
+        public Employe( string nom, string prenom, string email, string adresse, string statut, string dateNaissance, string dateEmbauche, double tauxHoraire, Uri photo)
+        {
+            this.nom = nom;
+            this.prenom = prenom;
+            this.email = email;
+            this.adresse = adresse;
+            this.statut = statut;
+            this.dateNaissance = dateNaissance;
+            this.dateEmbauche = dateEmbauche;
+            this.tauxHoraire = tauxHoraire;
+            this.photo = photo;
+        }
         public Employe(string nom, string prenom, string email, string adresse, string statut,  double tauxHoraire, Uri photo)
         {
             this.nom = nom;

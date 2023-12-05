@@ -11,6 +11,7 @@
 
     <StackPanel>
         <TextBox Header="Nom d'utilisateur" x:Name="tbxUser"/>
+        <TextBlock x:Name="tblError" Text="Les informations d'identification sont erronées !" Foreground="Red" Visibility="Collapsed"/>
         <PasswordBox Header="Mot de passe" x:Name="pwdBox"/>
     </StackPanel>
 </ContentDialog>

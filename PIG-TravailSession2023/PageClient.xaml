@@ -25,6 +25,7 @@
         </Grid.RowDefinitions>
         <ScrollViewer Grid.Column="0" Grid.Row="0">
             <StackPanel Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Top">
+                <Button x:Name="btnAdd" Content="Ajout" Click="btnAdd_Click"  IsEnabled="True" Visibility="Visible"/>
                 <TextBlock Text="Liste des clients"/>
                 <ListView x:Name="lvClient" SelectionChanged="lvClient_SelectionChanged">
                     <ListView.ItemTemplate>
@@ -70,7 +71,7 @@
             <TextBlock x:Name="tblErrorAdresse" Text="L'adresse ne doit pas être vide !" Visibility="Collapsed" Foreground="Red"/>
         </StackPanel>
         <StackPanel Grid.Column="1" Grid.Row="3" Orientation="Vertical" VerticalAlignment="Center" Margin="10,10,10,10">
-            <TextBox x:Name="tbxNumTel" Header="Photo (URL): " Width="500" Visibility="Collapsed" SelectionChanged="tbxNumTel_SelectionChanged"/>
+            <TextBox x:Name="tbxNumTel" Header="Numéro de téléphone: " Width="500" Visibility="Collapsed" SelectionChanged="tbxNumTel_SelectionChanged"/>
             <TextBlock x:Name="tblErrorNumTel" Text="Le numéro de téléphone doit être valide" Visibility="Collapsed" Foreground="Red"/>
         </StackPanel>
         <StackPanel Grid.Column="3" Grid.Row="3" Orientation="Horizontal" VerticalAlignment="Center" Margin="10,10,10,10">

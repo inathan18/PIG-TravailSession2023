@@ -26,6 +26,8 @@ namespace PIG_TravailSession2023
         {
             this.InitializeComponent();
         }
+
+
         public string Nom
         {
             get => nom; 
@@ -38,7 +40,18 @@ namespace PIG_TravailSession2023
         private void ContentDialog_PrimaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
         {
             nom = tbxUser.Text;
-            pwd = pwdBox.Password;
+            pwd = Singleton.getInstance().genererSHA256(pwdBox.Password);
+
+            if (Singleton.getInstance().AdminLogin(nom, pwd) == false)
+            {
+                args.Cancel = true;
+                tblError.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                tblError.Visibility = Visibility.Collapsed;
+            }
+            
         }
     }
 }

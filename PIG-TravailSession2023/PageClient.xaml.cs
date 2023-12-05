@@ -61,31 +61,43 @@ namespace PIG_TravailSession2023
 
         private void btnEdit_Click(object sender, RoutedEventArgs e)
         {
-            tbxAdresse.Visibility = Visibility.Visible;
-            tbxEmail.Visibility = Visibility.Visible;
-            tbxNom.Visibility = Visibility.Visible;
-            tbxNumTel.Visibility = Visibility.Visible;
+            if (Singleton.getInstance().getStatut())
+            {
+                tbxAdresse.Visibility = Visibility.Visible;
+                tbxEmail.Visibility = Visibility.Visible;
+                tbxNom.Visibility = Visibility.Visible;
+                tbxNumTel.Visibility = Visibility.Visible;
+                btnSave.Visibility = Visibility.Visible;
 
-            var cli = Singleton.getInstance().getClient(lvClient.SelectedIndex);
+                var cli = Singleton.getInstance().getClient(lvClient.SelectedIndex);
 
-            tbxAdresse.Text = cli.Adresse.ToString();
-            tbxEmail.Text = cli.Email.ToString();
-            tbxNom.Text = cli.Nom.ToString();
-            tbxNumTel.Text = cli.NumTel.ToString();
+                tbxAdresse.Text = cli.Adresse.ToString();
+                tbxEmail.Text = cli.Email.ToString();
+                tbxNom.Text = cli.Nom.ToString();
+                tbxNumTel.Text = cli.NumTel.ToString();
 
-            selClient = cli.Id;
+                selClient = cli.Id;
+
+            }
+
         }
 
         private void btnDelete_Click(object sender, RoutedEventArgs e)
         {
-            try
+
+            if (Singleton.getInstance().getStatut())
             {
-                Singleton.getInstance().SupprimerClient(lvClient.SelectedIndex);
+                try
+                {
+                    Singleton.getInstance().SupprimerClient(lvClient.SelectedIndex);
+                }
+                catch (Exception ex)
+                {
+                    string s = ex.Message; Console.WriteLine(s);
+                }
+
             }
-            catch (Exception ex)
-            {
-                string s = ex.Message; Console.WriteLine(s);
-            }
+
         }
 
         private void tbxNom_SelectionChanged(object sender, RoutedEventArgs e)
@@ -96,6 +108,19 @@ namespace PIG_TravailSession2023
         private void tbxEmail_SelectionChanged(object sender, RoutedEventArgs e)
         {
             email = tbxEmail.Text;
+        }
+
+        private void btnAdd_Click(object sender, RoutedEventArgs e)
+        {
+            if (Singleton.getInstance().getStatut())
+            {
+                selClient = 0;
+                tbxNom.Visibility = Visibility.Visible;
+                tbxEmail.Visibility = Visibility.Visible;
+                tbxAdresse.Visibility = Visibility.Visible;
+                tbxNumTel.Visibility = Visibility.Visible;
+                btnSave.Visibility = Visibility.Visible;
+            }
         }
 
         private void tbxAdresse_SelectionChanged(object sender, RoutedEventArgs e)
@@ -157,7 +182,16 @@ namespace PIG_TravailSession2023
 
             if (erreurAdresse == false && erreurEmail == false && erreurNom == false && erreurNumTel == false)
             {
-                Singleton.getInstance().ModifierClient(selClient, nom, adresse, numTel, email);
+                if (string.IsNullOrEmpty(id.ToString()) || id.ToString() == "NaN" || id == 0) 
+                {
+                    Client client = new Client(nom, adresse, numTel, email);
+                    Singleton.getInstance().AjouterClient(client);
+                }
+                else
+                {
+                    Singleton.getInstance().ModifierClient(selClient, nom, adresse, numTel, email);
+                }
+                
             }
 
         }

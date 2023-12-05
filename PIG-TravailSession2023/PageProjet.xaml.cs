@@ -73,44 +73,55 @@ namespace PIG_TravailSession2023
 
         private void btnEdit_Click(object sender, RoutedEventArgs e)
         {
-            tbxDescription.Visibility = Visibility.Visible;
-            tbxTitre.Visibility = Visibility.Visible;
-            nbxBudget.Visibility = Visibility.Visible;
-            nbxNbEmployes.Visibility = Visibility.Visible;
-            tgsStatut.Visibility = Visibility.Visible;
-            dpDateDebut.Visibility = Visibility.Visible;
-            cbxClient.Visibility = Visibility.Visible;
 
-            var proj = Singleton.getInstance().getProjet(lvProjet.SelectedIndex);
-            tbxDescription.Text = proj.Description.ToString();
-            tbxTitre.Text = proj.Titre.ToString();
-            nbxBudget.Value = proj.Budget;
-            nbxNbEmployes.Value = proj.NbEmployes;
-            dpDateDebut.SelectedDate = DateTime.Parse(proj.DateDebut);
-            cbxClient.SelectedValue = proj.Client;
-
-            if (proj.Statut == "Terminé")
+            if (Singleton.getInstance().getStatut())
             {
-                tgsStatut.IsEnabled = true;
-            }
-            else
-            {
-                tgsStatut.IsEnabled = false;
+                tbxDescription.Visibility = Visibility.Visible;
+                tbxTitre.Visibility = Visibility.Visible;
+                nbxBudget.Visibility = Visibility.Visible;
+                nbxNbEmployes.Visibility = Visibility.Visible;
+                tgsStatut.Visibility = Visibility.Visible;
+                dpDateDebut.Visibility = Visibility.Visible;
+                cbxClient.Visibility = Visibility.Visible;
+
+                var proj = Singleton.getInstance().getProjet(lvProjet.SelectedIndex);
+                tbxDescription.Text = proj.Description.ToString();
+                tbxTitre.Text = proj.Titre.ToString();
+                nbxBudget.Value = proj.Budget;
+                nbxNbEmployes.Value = proj.NbEmployes;
+                dpDateDebut.SelectedDate = DateTime.Parse(proj.DateDebut);
+                cbxClient.SelectedValue = proj.Client;
+
+                if (proj.Statut == "Terminé")
+                {
+                    tgsStatut.IsEnabled = true;
+                }
+                else
+                {
+                    tgsStatut.IsEnabled = false;
+                }
+
+                selProjet = proj.NoProjet;
             }
 
-            selProjet = proj.NoProjet;
         }
 
         private void btnDelete_Click(object sender, RoutedEventArgs e)
         {
-            try
+
+            if (Singleton.getInstance().getStatut())
             {
-                Singleton.getInstance().SupprimerProjet(lvProjet.SelectedIndex);
-            }
-            catch (Exception ex)
-            {
-                string s = ex.Message;
-                Console.WriteLine(s);
+                try
+                {
+                    Singleton.getInstance().SupprimerProjet(lvProjet.SelectedIndex);
+                }
+                catch (Exception ex)
+                {
+                    string s = ex.Message;
+                    Console.WriteLine(s);
+                }
+
+
             }
 
         }
@@ -128,14 +139,18 @@ namespace PIG_TravailSession2023
 
         private void btnAdd_Click(object sender, RoutedEventArgs e)
         {
-            selProjet = "";
-            tbxDescription.Visibility = Visibility.Visible;
-            tbxTitre.Visibility = Visibility.Visible;
-            nbxBudget.Visibility = Visibility.Visible;
-            nbxNbEmployes.Visibility = Visibility.Visible;
-            tgsStatut.Visibility = Visibility.Visible;
-            dpDateDebut.Visibility = Visibility.Visible;
-            cbxClient.Visibility = Visibility.Visible;
+            if (Singleton.getInstance().getStatut())
+            {
+                selProjet = "";
+                tbxDescription.Visibility = Visibility.Visible;
+                tbxTitre.Visibility = Visibility.Visible;
+                nbxBudget.Visibility = Visibility.Visible;
+                nbxNbEmployes.Visibility = Visibility.Visible;
+                tgsStatut.Visibility = Visibility.Visible;
+                dpDateDebut.Visibility = Visibility.Visible;
+                cbxClient.Visibility = Visibility.Visible;
+
+            }
 
 
         }
