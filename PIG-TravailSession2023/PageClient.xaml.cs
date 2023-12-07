@@ -29,6 +29,10 @@ namespace PIG_TravailSession2023
         {
             this.InitializeComponent();
             lvClient.ItemsSource = Singleton.getInstance().getListeClientBD();
+            if (Singleton.getInstance().getListeClient().Count > 0)
+            {
+                tblEmpty.Visibility = Visibility.Collapsed;
+            }
         }
 
         private void lvClient_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -47,10 +51,11 @@ namespace PIG_TravailSession2023
                     btnEdit.Visibility = Visibility.Visible;
                     selectedView.Visibility = Visibility.Visible;
                 }
-                tbxAdresse.Visibility = Visibility.Visible;
+                tbxAdresse.Visibility = Visibility.Collapsed;
                 tbxEmail.Visibility = Visibility.Collapsed;
                 tbxNom.Visibility = Visibility.Collapsed;
                 tbxNumTel.Visibility = Visibility.Collapsed;
+                btnSave.Visibility = Visibility.Collapsed;
             }
             catch (Exception ex)
             {

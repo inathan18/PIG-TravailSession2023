@@ -10,6 +10,89 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="2*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="2*"/>
+            <RowDefinition Height="2*"/>
+            <RowDefinition Height="2*"/>
+        </Grid.RowDefinitions>
+        <ScrollViewer Grid.Column="0" Grid.Row="0">
+            <StackPanel Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Top">
+                <Button x:Name="btnAdd" Content="Ajout" Click="btnAdd_Click" Visibility="Visible"/>
+                <TextBlock Text="Assignation employé - projet"/>
+                <ListView x:Name="lvEmployeProjet" SelectionChanged="lvEmployeProjet_SelectionChanged">
+                    <DataTemplate x:DataType="local:Employe_projet">
+                        <StackPanel Orientation="Horizontal" Margin="5" HorizontalAlignment="Stretch">
+                            <TextBlock Margin="10,10,10,10"/>
+                            <Run Text="{x:Bind Titre}"/>
+                            <Run Text=" "/>
+                            <Run Text="{x:Bind NomEmploye}"/>
+                        </StackPanel>
+                    </DataTemplate>
+                </ListView>
+                <TextBlock Text="Vide" FontSize="20" x:Name="tblEmpty" Visibility="Visible"/>
+            </StackPanel>
+        </ScrollViewer>
+        <ScrollViewer Grid.Column="1" Grid.Row="0" Grid.ColumnSpan="2">
+            <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Top" x:Name="selectedView" Visibility="Collapsed">
+                <TextBlock Text="Employé Projet sélectionné"/>
+                <TextBlock x:Name="tblId" Text=""/>
+                <TextBlock x:Name="tblMatricule" Text=""/>
+                <TextBlock x:Name="tblNomEmploye" Text=""/>
+                <TextBlock x:Name="tblNoProjet" Text=""/>
+                <TextBlock x:Name="tblTitre"/>
+                <TextBlock x:Name="tblNbHeures"/>
+                <TextBlock x:Name="tblSalaire"/>
+            </StackPanel>
+        </ScrollViewer>
+        <StackPanel Grid.Column="0" Grid.Row="1">
+            <Button x:Name="btnEdit" Content="Modifier" Click="btnEdit_Click" Visibility="Collapsed"/>
+            <Button x:Name="btnDelete" Content="Supprimer" Click="btnDelete_Click" Visibility="Collapsed"/>
+        </StackPanel>
 
+        <StackPanel Grid.Column="0" Grid.Row="2" Orientation="Vertical" VerticalAlignment="Center" Margin="5,5,5,5">
+            <ComboBox x:Name="cbxProjet" Header="Projet" Width="500" Visibility="Collapsed" SelectionChanged="cbxProjet_SelectionChanged">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate x:DataType="local:Projet">
+                        <StackPanel Orientation="Horizontal" Margin="5" HorizontalAlignment="Stretch">
+                            <TextBlock Margin="10,10,10,10">
+                                <Run Text="{x:Bind NoProjet}"/>
+                                <Run Text=" "/>
+                                <Run Text="{x:Bind Titre}"/>
+                            </TextBlock>
+                        </StackPanel>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+            <TextBlock x:Name="tblErrorProjet" Text="Le projet doit être valide" Visibility="Collapsed" Foreground="Red"/>
+        </StackPanel>
+        <StackPanel Grid.Column="1" Grid.Row="2" Orientation="Vertical" VerticalAlignment="Center" Margin="5,5,5,5">
+            <ComboBox x:Name="cbxEmploye" Header="Employé" Width="500" Visibility="Collapsed" SelectionChanged="cbxEmploye_SelectionChanged">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate x:DataType="local:Employe">
+                        <StackPanel Orientation="Horizontal" Margin="5" HorizontalAlignment="Stretch">
+                            <TextBlock Margin="10,10,10,10">
+                                <Run Text="{x:Bind Matricule}"/>
+                                <Run Text=" "/>
+                                <Run Text="{x:Bind Nom}"/>
+                            </TextBlock>
+                        </StackPanel>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+            <TextBlock x:Name="tblErrorEmploye" Text="L'employé doit être valide" Visibility="Collapsed" Foreground="Red"/>
+        </StackPanel>
+        <StackPanel Grid.Column="2" Grid.Row="1" Orientation="Vertical" VerticalAlignment="Center" Margin="5,5,5,5">
+            <NumberBox x:Name="nbxHeures" Header="Heures: " Width="500" Visibility="Collapsed" ValueChanged="nbxHeures_ValueChanged"/>
+            <TextBlock x:Name="tblErrorHeures" Text="Le nombre d'heures est requis !" Visibility="Collapsed" Foreground="Red"/>
+        </StackPanel>
+        <StackPanel Grid.Column="2" Grid.Row="2" Orientation="Horizontal" VerticalAlignment="Center" Margin="10,10,10,10">
+            <Button x:Name="btnSave" Click="btnSave_Click" Visibility="Collapsed">Enregistrer</Button>
+            <TextBlock x:Name="tblSuccess" Text="Enregistrer avec succès !" Visibility="Collapsed"/>
+        </StackPanel>
     </Grid>
 </Page>

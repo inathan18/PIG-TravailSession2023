@@ -11,11 +11,11 @@
 
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="2*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="2*"/>
@@ -58,28 +58,28 @@
                 <TextBlock x:Name="tblStatut" Text=""/>
             </StackPanel>
         </ScrollViewer>
-        <StackPanel>
-            <Button x:Name="btnEdit" Content="Modifier" Click="btnEdit_Click" IsEnabled="False" Visibility="Collapsed"/>
-            <Button x:Name="btnDelete" Content="Supprimer" Click="btnDelete_Click" IsEnabled="False" Visibility="Collapsed"/>
+        <StackPanel Grid.Column="0" Grid.Row="1">
+            <Button x:Name="btnEdit" Content="Modifier" Click="btnEdit_Click" Visibility="Collapsed"/>
+            <Button x:Name="btnDelete" Content="Supprimer" Click="btnDelete_Click" Visibility="Collapsed"/>
         </StackPanel>
 
-        <StackPanel Grid.Column="0" Grid.Row="2" Orientation="Vertical" VerticalAlignment="Center" Margin="10,10,10,10">
+        <StackPanel Grid.Column="0" Grid.Row="2" Orientation="Vertical" VerticalAlignment="Center" Margin="5,5,5,5">
             <TextBox x:Name="tbxTitre" Header="Titre: " Width="200" Visibility="Collapsed" SelectionChanged="tbxTitre_SelectionChanged"/>
             <TextBlock x:Name="tblErrorTitre" Text="Le titre ne doit pas être vide !" Visibility="Collapsed" Foreground="Red"/>
         </StackPanel>
-        <StackPanel Grid.Column="0" Grid.Row="3" Orientation="Vertical" VerticalAlignment="Center" Margin="10,10,10,10">
+        <StackPanel Grid.Column="0" Grid.Row="3" Orientation="Vertical" VerticalAlignment="Center" Margin="5,5,5,5">
             <DatePicker x:Name="dpDateDebut" Header="Date de début: " Width="200" Visibility="Collapsed" SelectedDateChanged="dpDateDebut_SelectedDateChanged"/>
             <TextBlock x:Name="tblErrorDateDebut" Text="La date de début doit être valide !" Visibility="Collapsed" Foreground="Red"/>
         </StackPanel>
-        <StackPanel Grid.Column="1" Grid.Row="2" Orientation="Vertical" VerticalAlignment="Center" Margin="10,10,10,10">
+        <StackPanel Grid.Column="1" Grid.Row="2" Orientation="Vertical" VerticalAlignment="Center" Margin="5,5,5,5">
             <TextBox x:Name="tbxDescription" Header="Description: " Width="200" Visibility="Collapsed" SelectionChanged="tbxDescription_SelectionChanged"/>
             <TextBlock x:Name="tblErrorDescription" Text="La description ne doit pas être vide !" Visibility="Collapsed" Foreground="Red"/>
         </StackPanel>
-        <StackPanel Grid.Column="1" Grid.Row="3" Orientation="Vertical" VerticalAlignment="Center" Margin="10,10,10,10">
+        <StackPanel Grid.Column="1" Grid.Row="3" Orientation="Vertical" VerticalAlignment="Center" Margin="5,5,5,5">
             <NumberBox x:Name="nbxBudget" Header="Budget: " Width="500" Visibility="Collapsed" ValueChanged="nbxBudget_ValueChanged"/>
             <TextBlock x:Name="tblErrorBudget" Text="Le budget doit être valide" Visibility="Collapsed" Foreground="Red"/>
         </StackPanel>
-        <StackPanel Grid.Column="2" Grid.Row="2" Orientation="Vertical" VerticalAlignment="Center" Margin="10,10,10,10">
+        <StackPanel Grid.Column="2" Grid.Row="2" Orientation="Vertical" VerticalAlignment="Center" Margin="5,5,5,5" Width="100">
             <NumberBox x:Name="nbxNbEmployes" Header="Nombre d'employés: " PlaceholderText="Max 5" Minimum="1" ValueChanged="nbxNbEmployes_ValueChanged" Maximum="5" Visibility="Collapsed"/>
             <TextBlock x:Name="tblErrorNbEmployes" Text="Le nombre d'employé est requis" Visibility="Collapsed" Foreground="Red"/>
         </StackPanel>

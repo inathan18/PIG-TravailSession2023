@@ -32,6 +32,10 @@ namespace PIG_TravailSession2023
             this.InitializeComponent();
             lvProjet.ItemsSource = Singleton.getInstance().getListeProjetBD();
             cbxClient.ItemsSource = Singleton.getInstance().getListeClientBD();
+            if (Singleton.getInstance().getListeProjet().Count > 0)
+            {
+                tblEmpty.Visibility = Visibility.Collapsed;
+            }
         }
 
         private void lvProjet_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -64,6 +68,7 @@ namespace PIG_TravailSession2023
                 tgsStatut.Visibility = Visibility.Collapsed;
                 dpDateDebut.Visibility = Visibility.Collapsed;
                 cbxClient.Visibility = Visibility.Collapsed;
+                btnSave.Visibility = Visibility.Collapsed;
             }
             catch (Exception ex)
             {
@@ -134,7 +139,7 @@ namespace PIG_TravailSession2023
 
         private void dpDateDebut_SelectedDateChanged(DatePicker sender, DatePickerSelectedValueChangedEventArgs args)
         {
-            dateDebut = dpDateDebut.ToString();
+            dateDebut = dpDateDebut.SelectedDate.Value.ToString("yyy-MM-dd");
         }
 
         private void btnAdd_Click(object sender, RoutedEventArgs e)
@@ -149,6 +154,7 @@ namespace PIG_TravailSession2023
                 tgsStatut.Visibility = Visibility.Visible;
                 dpDateDebut.Visibility = Visibility.Visible;
                 cbxClient.Visibility = Visibility.Visible;
+                btnSave.Visibility = Visibility.Visible;    
 
             }
 
@@ -158,7 +164,11 @@ namespace PIG_TravailSession2023
         private void cbxClient_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             Client lvClie = cbxClient.SelectedItem as Client;
-            client = lvClie.Id;
+            if (lvClie != null)
+            {
+                client = lvClie.Id;
+            }
+            
         }
 
         private void tbxDescription_SelectionChanged(object sender, RoutedEventArgs e)

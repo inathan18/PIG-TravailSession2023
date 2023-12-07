@@ -11,10 +11,10 @@
 
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="2*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="2*"/>
@@ -53,9 +53,9 @@
                 <TextBlock x:Name="tblNumTel" Text=""/>
             </StackPanel>
         </ScrollViewer>
-        <StackPanel>
-            <Button x:Name="btnEdit" Content="Modifier" Click="btnEdit_Click" IsEnabled="False" Visibility="Collapsed"/>
-            <Button x:Name="btnDelete" Content="Supprimer" Click="btnDelete_Click" IsEnabled="False" Visibility="Collapsed"/>
+        <StackPanel Grid.Column="0" Grid.Row="1">
+            <Button x:Name="btnEdit" Content="Modifier" Click="btnEdit_Click" Visibility="Collapsed"/>
+            <Button x:Name="btnDelete" Content="Supprimer" Click="btnDelete_Click" Visibility="Collapsed"/>
         </StackPanel>
 
         <StackPanel Grid.Column="0" Grid.Row="2" Orientation="Vertical" VerticalAlignment="Center" Margin="10,10,10,10">
@@ -74,10 +74,10 @@
             <TextBox x:Name="tbxNumTel" Header="Numéro de téléphone: " Width="500" Visibility="Collapsed" SelectionChanged="tbxNumTel_SelectionChanged"/>
             <TextBlock x:Name="tblErrorNumTel" Text="Le numéro de téléphone doit être valide" Visibility="Collapsed" Foreground="Red"/>
         </StackPanel>
-        <StackPanel Grid.Column="3" Grid.Row="3" Orientation="Horizontal" VerticalAlignment="Center" Margin="10,10,10,10">
+        <StackPanel Grid.Column="2" Grid.Row="3" Orientation="Horizontal" VerticalAlignment="Center" Margin="10,10,10,10">
             <Button x:Name="btnSave" Click="btnSave_Click" Visibility="Collapsed">Enregistrer</Button>
         </StackPanel>
-        <StackPanel Grid.Column="3" Grid.Row ="4" Orientation="Horizontal" VerticalAlignment="Center" Margin="10,10,10,10">
+        <StackPanel Grid.Column="2" Grid.Row ="4" Orientation="Horizontal" VerticalAlignment="Center" Margin="10,10,10,10">
             <TextBlock x:Name="tblSuccess" Text="Enregistrer avec succès !" Visibility="Collapsed"/>
         </StackPanel>
 

@@ -246,13 +246,13 @@ namespace PIG_TravailSession2023
             {
                 string noProjet = (string)r["noProjet"];
                 string titre = (string)r["titre"];
-                string dateDebut = (string)r["dateDebut"];
+                string dateDebut = Convert.ToString(r["dateDebut"]);
                 string description = (string)r["description"];
                 string statut = (string)r["statut"];
                 int nbEmployes = (int)r["nbEmployes"];
                 int client = (int)r["client"];
                 double budget = (double)r["budget"];
-                double salaires = (double)r["salaires"];
+                double salaires = (double)r["salaire"];
 
                 Projet p = new Projet
                 {
@@ -499,6 +499,11 @@ namespace PIG_TravailSession2023
         public Projet getProjet(int position)
         {
             return listeProjet[position];
+        }
+
+        public Employe_projet getEmploye_Projet(int position)
+        {
+            return listeEmploye_projet[position];
         }
 
         public void SupprimerClient(int position)
@@ -799,13 +804,13 @@ namespace PIG_TravailSession2023
             {
                 string noProjet = (string)r["noProjet"];
                 string titre = (string)r["titre"];
-                string dateDebut = (string)r["dateDebut"];
+                string dateDebut = Convert.ToString(r["dateDebut"]);
                 string description = (string)r["description"];
                 string statut = (string)r["statut"];
                 int nbEmployes = (int)r["nbEmployes"];
                 int client = (int)r["client"];
                 double budget = (double)r["budget"];
-                double salaires = (double)r["salaires"];
+                double salaires = (double)r["salaire"];
 
                 Projet p = new Projet
                 {

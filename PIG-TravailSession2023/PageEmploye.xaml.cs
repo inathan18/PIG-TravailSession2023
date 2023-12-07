@@ -67,6 +67,8 @@ namespace PIG_TravailSession2023
                 tbxPhoto.Visibility = Visibility.Collapsed;
                 tbxPrenom.Visibility = Visibility.Collapsed;
                 tgsStatut.Visibility = Visibility.Collapsed;
+                dpDateEmbauche.Visibility = Visibility.Collapsed;
+                dpDateNaissance.Visibility = Visibility.Collapsed;
                 nbxTauxHoraire.Visibility = Visibility.Collapsed;
                 btnSave.Visibility = Visibility.Collapsed;
                 tblErrorAdresse.Visibility = Visibility.Collapsed;
@@ -97,6 +99,10 @@ namespace PIG_TravailSession2023
                 tbxPhoto.Visibility = Visibility.Visible;
                 tgsStatut.Visibility = Visibility.Visible;
                 btnSave.Visibility = Visibility.Visible;
+                dpDateEmbauche.IsEnabled = false;
+                dpDateEmbauche.Visibility = Visibility.Visible;
+                dpDateNaissance.Visibility = Visibility.Visible;
+                dpDateNaissance.IsEnabled = false;
 
                 var emp = Singleton.getInstance().getEmploye(lvEmploye.SelectedIndex);
                 tbxAdresse.Text = emp.Adresse.ToString();
@@ -253,6 +259,8 @@ namespace PIG_TravailSession2023
                 btnSave.Visibility = Visibility.Visible;
                 dpDateEmbauche.Visibility = Visibility.Visible;
                 dpDateNaissance.Visibility = Visibility.Visible;
+                dpDateEmbauche.IsEnabled = true;
+                dpDateNaissance.IsEnabled = true;
             }
             else
             {

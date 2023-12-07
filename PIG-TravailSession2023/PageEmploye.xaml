@@ -11,11 +11,11 @@
 
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="2*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="2*"/>
@@ -71,43 +71,43 @@
             <Button x:Name="btnDelete" Content="Supprimer" Click="btnDelete_Click" Visibility="Collapsed"/>
         </StackPanel>
 
-        <StackPanel Grid.Column="0" Grid.Row="2" Orientation="Vertical" VerticalAlignment="Center" Margin="10,10,10,10">
+        <StackPanel Grid.Column="0" Grid.Row="2" Orientation="Vertical" VerticalAlignment="Center" Margin="5,5,5,5">
             <TextBox x:Name="tbxPrenom" Header="Prénom: " Width="200" Visibility="Collapsed" SelectionChanged="tbxPrenom_SelectionChanged"/>
             <TextBlock x:Name="tblErrorPrenom" Text="Le prénom ne doit pas être vide !" Visibility="Collapsed" Foreground="Red"/>
         </StackPanel>
-        <StackPanel Grid.Column="0" Grid.Row="3" Orientation="Vertical" VerticalAlignment="Center" Margin="10,10,10,10">
+        <StackPanel Grid.Column="0" Grid.Row="3" Orientation="Vertical" VerticalAlignment="Center" Margin="5,5,5,5">
             <TextBox x:Name="tbxNom" Header="Nom: " Width="200" Visibility="Collapsed" SelectionChanged="tbxNom_SelectionChanged"/>
             <TextBlock x:Name="tblErrorNom" Text="Le nom ne doit pas être vide !" Visibility="Collapsed" Foreground="Red"/>
         </StackPanel>
-        <StackPanel Grid.Column="1" Grid.Row="2" Orientation="Vertical" VerticalAlignment="Center" Margin="10,10,10,10">
+        <StackPanel Grid.Column="1" Grid.Row="2" Orientation="Vertical" VerticalAlignment="Center" Margin="5,5,5,5">
             <TextBox x:Name="tbxEmail" Header="Courriel: " Width="200" Visibility="Collapsed" SelectionChanged="tbxEmail_SelectionChanged"/>
             <TextBlock x:Name="tblErrorEmail" Text="L'adresse courriel doit être valide !" Visibility="Collapsed" Foreground="Red"/>
         </StackPanel>
-        <StackPanel Grid.Column="1" Grid.Row="3" Orientation="Vertical" VerticalAlignment="Center" Margin="10,10,10,10">
+        <StackPanel Grid.Column="1" Grid.Row="3" Orientation="Vertical" VerticalAlignment="Center" Margin="5,5,5,5">
             <TextBox x:Name="tbxAdresse" Header="Adresse: " Width="200" Visibility="Collapsed" SelectionChanged="tbxAdresse_SelectionChanged"/>
             <TextBlock x:Name="tblErrorAdresse" Text="L'adresse ne doit pas être vide !" Visibility="Collapsed" Foreground="Red"/>
         </StackPanel>
-        <StackPanel Grid.Column="2" Grid.Row="2" Orientation="Vertical" VerticalAlignment="Center" Margin="10,10,10,10">
+        <StackPanel Grid.Column="2" Grid.Row="2" Orientation="Vertical" VerticalAlignment="Center" Margin="5,5,5,5" Width="100">
             <NumberBox x:Name="nbxTauxHoraire" Header="Taux Horaire: " PlaceholderText="0.00" ValueChanged="nbxTauxHoraire_ValueChanged" Visibility="Collapsed"/>
             <TextBlock x:Name="tblErrorTauxHoraire" Text="Le taux horaire doit être de minimum 15$." Visibility="Collapsed" Foreground="Red"/>
         </StackPanel>
-        <StackPanel Grid.Column="2" Grid.Row="3" Orientation="Vertical" VerticalAlignment="Center" Margin="10,10,10,10">
+        <StackPanel Grid.Column="2" Grid.Row="3" Orientation="Vertical" VerticalAlignment="Center" Margin="5,5,5,5">
             <TextBox x:Name="tbxPhoto" Header="Photo (URL): " Width="500" Visibility="Collapsed" SelectionChanged="tbxPhoto_SelectionChanged"/>
             <TextBlock x:Name="tblErrorPhoto" Text="Le lien de la photo doit être valide" Visibility="Collapsed" Foreground="Red"/>
         </StackPanel>
-        <StackPanel Grid.Column="3" Grid.Row="2" Orientation="Vertical" VerticalAlignment="Center" Margin="10,10,10,10">
+        <StackPanel Grid.Column="3" Grid.Row="2" Orientation="Vertical" VerticalAlignment="Center" Margin="5,5,5,5">
             <DatePicker x:Name="dpDateEmbauche" Header="Date d'embauche" SelectedDateChanged="dpDateEmbauche_SelectedDateChanged" Visibility="Collapsed"/>
         </StackPanel>
-        <StackPanel Grid.Column="3" Grid.Row="3" Orientation="Vertical" VerticalAlignment="Center" Margin="10,10,10,10">
+        <StackPanel Grid.Column="3" Grid.Row="3" Orientation="Vertical" VerticalAlignment="Center" Margin="5,5,5,5">
             <DatePicker x:Name="dpDateNaissance" Header="Date de naissance" SelectedDateChanged="dpDateNaissance_SelectedDateChanged"  Visibility="Collapsed"/>
         </StackPanel>
-        <StackPanel Grid.Column="4" Grid.Row="2" Orientation="Vertical" VerticalAlignment="Center" Margin="10,10,10,10">
+        <StackPanel Grid.Column="4" Grid.Row="2" Orientation="Vertical" VerticalAlignment="Center" Margin="5,5,5,5">
             <ToggleSwitch x:Name="tgsStatut" Header="Statut: " OffContent="Journalier" OnContent="Permanent" Toggled="tgsStatut_Toggled" Visibility="Collapsed"/>
         </StackPanel>
-        <StackPanel Grid.Column="4" Grid.Row="3" Orientation="Horizontal" VerticalAlignment="Center" Margin="10,10,10,10">
+        <StackPanel Grid.Column="4" Grid.Row="3" Orientation="Horizontal" VerticalAlignment="Center" Margin="5,5,5,5">
             <Button x:Name="btnSave" Click="btnSave_Click" Visibility="Collapsed">Enregistrer</Button>
         </StackPanel>
-        <StackPanel Grid.Column="4" Grid.Row ="4" Orientation="Horizontal" VerticalAlignment="Center" Margin="10,10,10,10">
+        <StackPanel Grid.Column="4" Grid.Row ="4" Orientation="Horizontal" VerticalAlignment="Center" Margin="5,5,5,5">
             <TextBlock x:Name="tblSuccess" Text="Enregistrer avec succès !" Visibility="Collapsed"/>
         </StackPanel>
 
