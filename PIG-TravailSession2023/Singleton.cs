@@ -27,7 +27,7 @@ namespace PIG_TravailSession2023
         bool userStatut = false;
 
         static Singleton instance = null;
-        MySqlConnection con = new MySqlConnection("Server=cours.cegep3r.info;Database=a2023_420325ri_fabeq26;Uid=1343683;Pwd=1343683");
+        MySqlConnection con = new MySqlConnection("***");
 
         public Singleton()
         {
