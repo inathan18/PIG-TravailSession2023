@@ -24,7 +24,7 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <ScrollViewer Grid.Column="0" Grid.Row="0">
+        <ScrollViewer Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2">
             <StackPanel Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Top">
                 <Button x:Name="btnAdd" Content="Ajout" Click="btnAdd_Click" IsEnabled="True" Visibility="Visible"/>
                 <TextBlock Text="Liste des projets"/>
@@ -44,7 +44,7 @@
                 <TextBlock Text="Vide" FontSize="20" x:Name="tblEmpty" Visibility="Visible" />
             </StackPanel>
         </ScrollViewer>
-        <ScrollViewer Grid.Column="1" Grid.Row="0" Grid.ColumnSpan="2">
+        <ScrollViewer Grid.Column="2" Grid.Row="0" Grid.ColumnSpan="2">
             <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Top" x:Name="selectedView" Visibility="Collapsed">
                 <TextBlock Text="Projet Sélectionné"/>
                 <TextBlock x:Name="tblNoProjet" Text=""/>

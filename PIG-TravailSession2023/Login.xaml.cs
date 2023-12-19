@@ -39,17 +39,52 @@ namespace PIG_TravailSession2023
 
         private void ContentDialog_PrimaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
         {
-            nom = tbxUser.Text;
-            pwd = Singleton.getInstance().genererSHA256(pwdBox.Password);
-
-            if (Singleton.getInstance().AdminLogin(nom, pwd) == false)
+            if (Singleton.getInstance().checkUsers())
             {
-                args.Cancel = true;
-                tblError.Visibility = Visibility.Visible;
+                nom = tbxUser.Text;
+                pwd = Singleton.getInstance().genererSHA256(pwdBox.Password);
+
+                if (Singleton.getInstance().AdminLogin(nom, pwd) == false)
+                {
+
+                    args.Cancel = true;
+                    tblError.Visibility = Visibility.Visible;
+                }
+                else
+                {
+                    tblError.Visibility = Visibility.Collapsed;
+                }
             }
             else
             {
-                tblError.Visibility = Visibility.Collapsed;
+                bool errorUser, errorPwd;
+                if (tbxUser.Text != null)
+                {
+                    nom = tbxUser.Text;
+                    errorUser = false;
+                }
+                else
+                {
+                    errorUser = true;
+                }
+                if (pwdBox.Password != null)
+                {
+                    pwd = pwdBox.Password;
+                    errorPwd = false;
+                }
+                else
+                {
+                    errorPwd = true;
+                }
+
+                if (errorUser == false && errorPwd == false)
+                {
+                    Singleton.getInstance().createUser(nom, pwd);
+                }
+                
+                
+                
+                
             }
             
         }

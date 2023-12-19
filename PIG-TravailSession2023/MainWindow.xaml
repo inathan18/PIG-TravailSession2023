@@ -21,7 +21,7 @@
             <NavigationView.PaneFooter>
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
                     <Button x:Name="btnWrite" Click="btnWrite_Click">Exporter les projets</Button>
-                    <Button x:Name="btnLogin" Click="btnLogin_Click">Connexion</Button>
+                    <Button x:Name="btnLogin" Click="btnLogin_Click">Connexion / Déconnexion</Button>
                 </StackPanel>
             </NavigationView.PaneFooter>
             <Frame x:Name="mainFrame" Grid.Row="1"/>

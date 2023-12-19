@@ -24,6 +24,7 @@ namespace PIG_TravailSession2023
     public sealed partial class PageAdmin : Page
     {
         string matricule, noProjet, nomEmploye, titre, selEmpProjet;
+        int selEmp, selProj;
         double nbHeures, salaire;
         public PageAdmin()
         {
@@ -39,7 +40,13 @@ namespace PIG_TravailSession2023
 
         private void btnAdd_Click(object sender, RoutedEventArgs e)
         {
-
+            if (Singleton.getInstance().getStatut())
+            {
+                cbxEmploye.Visibility = Visibility.Visible;
+                cbxProjet.Visibility = Visibility.Visible;
+                nbxHeures.Visibility = Visibility.Visible;
+                btnSave.Visibility = Visibility.Visible;
+            }
         }
 
         private void lvEmployeProjet_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -50,7 +57,7 @@ namespace PIG_TravailSession2023
                 {
                     Employe_projet lvEmproj = lvEmployeProjet.SelectedItem as Employe_projet;
                     tblMatricule.Text = "Matricule: " + lvEmproj.Matricule.ToString();
-                    tblNomEmploye.Text = "Nom: " + lvEmproj.NomEmploye.ToString();
+                    tblNomEmploye.Text = "Nom Employe: " + lvEmproj.NomEmploye.ToString();
                     tblNoProjet.Text = "No Projet: " + lvEmproj.NoProjet.ToString();
                     tblTitre.Text = "Titre projet: " + lvEmproj.Titre.ToString();
                     tblNbHeures.Text = "Nb Heures: " + lvEmproj.NbHeures.ToString();
@@ -84,9 +91,10 @@ namespace PIG_TravailSession2023
                 var emProj = Singleton.getInstance().getEmploye_Projet(lvEmployeProjet.SelectedIndex);
                 cbxEmploye.SelectedValue = emProj.Matricule;
                 cbxProjet.SelectedValue = emProj.NoProjet;
+                salaire = emProj.Salaire;
 
                 selEmpProjet = emProj.Id.ToString();
-                
+
             }
 
         }
@@ -99,27 +107,108 @@ namespace PIG_TravailSession2023
                 {
                     Singleton.getInstance().SupprimerEmployeProjet(lvEmployeProjet.SelectedIndex);
                 }
+                catch (Exception ex)
+                {
+                    string s = ex.Message;
+                    Console.WriteLine(s);
+                }
             }
 
         }
 
+        
+
         private void cbxProjet_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            selProj = -1;
+            selProj = cbxProjet.SelectedIndex;
+            Console.WriteLine(selProj);
+            
 
         }
 
         private void cbxEmploye_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            selEmp = -1;
+            selEmp = cbxEmploye.SelectedIndex;
+            Console.WriteLine(selEmp);
+            
 
         }
 
         private void nbxHeures_ValueChanged(NumberBox sender, NumberBoxValueChangedEventArgs args)
         {
+            nbHeures = nbxHeures.Value;
 
         }
 
         private void btnSave_Click(object sender, RoutedEventArgs e)
         {
+            Boolean erreurHeure, erreurEmploye, erreurProjet, erreurMultipleProjet;
+            noProjet = Singleton.getInstance().getProjet(selProj).NoProjet;
+            matricule = Singleton.getInstance().getEmploye(selEmp).Matricule;
+            erreurMultipleProjet = Singleton.getInstance().validateEmployeProject(selEmp, selProj);
+            
+
+            if (erreurMultipleProjet)
+            {
+                
+                tblErreurMultipleProjet.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                tblErreurMultipleProjet.Visibility = Visibility.Collapsed;
+            }
+
+            if (string.IsNullOrEmpty(nbxHeures.ToString()) || nbxHeures.ToString() == "NaN")
+            {
+                tblErrorHeures.Visibility = Visibility.Visible;
+                erreurHeure = true;
+            }
+            else
+            {
+                tblErrorHeures.Visibility = Visibility.Collapsed;
+                erreurHeure = false;
+
+            }
+            if (string.IsNullOrEmpty(selEmp.ToString()) || selEmp.ToString() == "NaN")
+            {
+                tblErrorEmploye.Visibility = Visibility.Visible;
+                erreurEmploye = true;
+
+            }
+            else
+            {
+                tblErrorEmploye.Visibility = Visibility.Collapsed;
+                erreurEmploye = false;
+            }
+
+            if (string.IsNullOrEmpty(selProj.ToString()) || selProj.ToString() == "NaN")
+            {
+                tblErrorProjet.Visibility = Visibility.Visible;
+                erreurProjet = true;
+            }
+            else
+            {
+                tblErrorProjet.Visibility = Visibility.Collapsed;
+                erreurProjet = false;
+            }
+
+            if (erreurProjet == false && erreurEmploye == false && erreurHeure == false && erreurMultipleProjet == false)
+            {
+                if (string.IsNullOrEmpty(selEmpProjet) || selEmpProjet == "NaN")
+                {
+                    Employe_projet employe_Projet = new Employe_projet(matricule, noProjet, nbHeures, 0);
+                    Singleton.getInstance().AjouterEmployeProjet(employe_Projet);
+                }
+                else
+                {
+                    var idProj = Int32.Parse(selEmpProjet);
+                    Singleton.getInstance().ModifierEmployeProjet(idProj, matricule, noProjet, nbHeures, salaire);
+                }
+            }
+
+
 
         }
     }

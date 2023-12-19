@@ -21,8 +21,10 @@ namespace PIG_TravailSession2023
         ObservableCollection<Employe> listeEmploye;
         ObservableCollection<Employe_projet> listeEmploye_projet;
         ObservableCollection<Projet> listeProjet;
+        ObservableCollection<Employe_projet> listeAssignedProjet;
         ObservableCollection<User> listeUser;
         bool loginStatus = false;
+        bool userStatut = false;
 
         static Singleton instance = null;
         MySqlConnection con = new MySqlConnection("Server=cours.cegep3r.info;Database=a2023_420325ri_fabeq26;Uid=1343683;Pwd=1343683");
@@ -64,12 +66,78 @@ namespace PIG_TravailSession2023
             return sb.ToString();
         }
 
+        public bool checkUsers()
+        {
+            try
+            {
+                MySqlCommand commande = new MySqlCommand("getUser");
+                commande.Connection = con;
+                commande.CommandType = System.Data.CommandType.StoredProcedure;
+                con.Open();
+                commande.Prepare();
+
+                MySqlDataReader r = commande.ExecuteReader();
+
+                if (r.Read())
+                {
+
+                    userStatut = true;
+
+                }
+                else
+                {
+                    userStatut = false;
+                }
+                con.Close();
+                reload();
+                return userStatut;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return false;
+            }
+        }
+
+        public void createUser(string username, string password)
+        {
+            try
+            {
+                MySqlCommand commande = new MySqlCommand("create_user");
+                commande.Connection = con;
+                commande.CommandType = System.Data.CommandType.StoredProcedure;
+                
+                commande.Parameters.AddWithValue("@auser", username);
+                commande.Parameters.AddWithValue("@apass", Singleton.getInstance().genererSHA256(password));
+
+                if (con.State != System.Data.ConnectionState.Open)
+                {
+                    con.Open();
+                }
+
+                commande.Prepare();
+                commande.ExecuteNonQuery();
+
+                con.Close();
+                reload();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+        }
+
+        public bool logout()
+        {
+            loginStatus = false;
+            return loginStatus;
+        }
 
         public bool AdminLogin(string user, string pass)
         {
             try
             {
-                
+
                 MySqlCommand commande = new MySqlCommand("login");
                 commande.Connection = con;
                 commande.CommandType = System.Data.CommandType.StoredProcedure;
@@ -84,7 +152,7 @@ namespace PIG_TravailSession2023
                     string username = (string)r["user"];
                     string password = (string)r["password"];
 
-                    if(password == pass)
+                    if (password == pass)
                     {
                         loginStatus = true;
                     }
@@ -206,7 +274,7 @@ namespace PIG_TravailSession2023
                 string noProjet = (string)r["noProjet"];
                 double nbHeures = (double)r["nbHeures"];
                 double salaire = (double)r["salaire"];
-                string nomEmploye = (string)r["Nom employé"];
+                string nomEmploye = (string)r["nomEmploye"];
                 string titre = (string)r["titre"];
 
                 Employe_projet ep = new Employe_projet
@@ -500,6 +568,93 @@ namespace PIG_TravailSession2023
         {
             return listeProjet[position];
         }
+
+        public ObservableCollection<Employe_projet> getAssignedProjects(string mat)
+        {
+            
+            listeAssignedProjet = new ObservableCollection<Employe_projet>();
+            MySqlCommand commande = new MySqlCommand("get_assignedProjects");
+            commande.Connection = con;
+            commande.CommandType = System.Data.CommandType.StoredProcedure;
+            commande.Parameters.AddWithValue("@noEmploye", mat);
+
+            if (con.State != System.Data.ConnectionState.Open)
+            {
+                con.Open();
+            }
+
+            MySqlDataReader r = commande.ExecuteReader();
+
+            while (r.Read())
+            {
+
+                int id = (int)r["id"];
+                string matricule = (string)r["matricule"];
+                string noProjet = (string)r["noProjet"];
+                double nbHeures = (double)r["nbHeures"];
+                double salaire = (double)r["salaire"];
+                string nomEmploye = (string)r["nomEmploye"];
+                string titre = (string)r["titre"];
+
+                Employe_projet ep = new Employe_projet
+                {
+                    Id = id,
+                    Matricule = matricule,
+                    NoProjet = noProjet,
+                    NbHeures = nbHeures,
+                    Salaire = salaire,
+                    NomEmploye = nomEmploye,
+                    Titre = titre
+
+                };
+                listeAssignedProjet.Add(ep);
+            }
+            r.Close();
+            con.Close();
+            return listeAssignedProjet;
+        }
+
+
+
+        public bool validateEmployeProject(int indexEmp, int indexProj)
+        {
+            var mat = Singleton.getInstance().getEmploye(indexEmp).Matricule;
+            var listeEmployeProjet = listeEmploye_projet.SingleOrDefault(x => x.Matricule == mat);
+
+
+            if (listeEmployeProjet != null)
+            {
+                var listeAssignedProjet = Singleton.getInstance().getAssignedProjects(mat);
+                int validate = 0;
+                foreach (var item in listeAssignedProjet)
+                {
+                    if (item.NoProjet == Singleton.getInstance().getProjet(indexProj).NoProjet && Singleton.getInstance().getProjet(indexProj).Statut == "en cours")
+                    {
+                        validate++;
+                        
+                    }
+                    else
+                    {
+                        
+                    }
+                }
+                if (validate > 0)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            else
+            {
+                return false;
+            }
+
+
+        }
+
 
         public Employe_projet getEmploye_Projet(int position)
         {
@@ -880,7 +1035,7 @@ namespace PIG_TravailSession2023
                 string noProjet = (string)r["noProjet"];
                 double nbHeures = (double)r["nbHeures"];
                 double salaire = (double)r["salaire"];
-                string nomEmploye = (string)r["Nom employé"];
+                string nomEmploye = (string)r["nomEmploye"];
                 string titre = (string)r["titre"];
 
                 Employe_projet ep = new Employe_projet

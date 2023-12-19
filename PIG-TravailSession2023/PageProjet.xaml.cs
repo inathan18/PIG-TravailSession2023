@@ -52,7 +52,7 @@ namespace PIG_TravailSession2023
                     tblNbEmployes.Text = "Nombre d'employés: " + lvProj.NbEmployes.ToString();
                     tblNoProjet.Text = "Numéro de projet: " + lvProj.NoProjet;
                     tblStatut.Text = "Statut: " + lvProj.Statut;
-                    tblTotalSalaire.Text = "Salaires: " + lvProj.Salaires.ToString();
+                    tblTotalSalaire.Text = "Salaires: " + lvProj.Salaires.ToString() + " $";
                     tblTitre.Text = "Titre: " + lvProj.Titre;
                     selectedView.Visibility = Visibility.Visible;
                     btnEdit.Visibility = Visibility.Visible;
